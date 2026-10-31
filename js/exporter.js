@@ -138,22 +138,19 @@ async function renderOfflineBuffer() {
       reverbWet = 0.3;
     }
 
-    const offlineReverb = new Tone.Freeverb({
-      roomSize: 0.5,
-      dampening: 3000
-    }).toDestination();
-    offlineReverb.wet.value = reverbWet;
+    // 免 Worklet 原生空間混響效果
+    const offlineReverb = createCleanReverb(Tone.context, Tone.Destination, reverbWet);
 
     const lead = new Tone.PolySynth(Tone.Synth, {
       oscillator: { type: leadOsc },
       envelope: { attack: 0.01, decay: 0.15, sustain: 0.2, release: 0.2 }
-    }).connect(offlineReverb);
+    }).connect(offlineReverb.input);
     lead.volume.value = -6;
 
     const bass = new Tone.PolySynth(Tone.Synth, {
       oscillator: { type: bassOsc },
       envelope: { attack: 0.02, decay: 0.3, sustain: 0.4, release: 0.3 }
-    }).connect(offlineReverb);
+    }).connect(offlineReverb.input);
     bass.volume.value = -3;
 
     const kick = new Tone.MembraneSynth({
