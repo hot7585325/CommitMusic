@@ -1,0 +1,762 @@
+﻿COMMIT:aa0e764|hot7585325|feat: 撠??西澈?agic Auth ??蝣潮??蝺?QR Code??璆剝??梯”????Agent 鈭斗??
+7	0	.gitignore
+9	0	cloudflare-multi-tenant-qr-order-saas/.env.example
+9	0	cloudflare-multi-tenant-qr-order-saas/.gitignore
+117	0	cloudflare-multi-tenant-qr-order-saas/README.md
+266	0	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+156	0	cloudflare-multi-tenant-qr-order-saas/doc/system_design.md
+7	0	cloudflare-multi-tenant-qr-order-saas/metadata.json
+116	0	cloudflare-multi-tenant-qr-order-saas/migrations/0001_initial.sql
+19	0	cloudflare-multi-tenant-qr-order-saas/migrations/0002_magic_auth.sql
+2175	0	cloudflare-multi-tenant-qr-order-saas/package-lock.json
+22	0	cloudflare-multi-tenant-qr-order-saas/package.json
+528	0	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+13	0	cloudflare-multi-tenant-qr-order-saas/public/assets/icon-192.svg
+13	0	cloudflare-multi-tenant-qr-order-saas/public/assets/icon-512.svg
+396	0	cloudflare-multi-tenant-qr-order-saas/public/css/admin.css
+248	0	cloudflare-multi-tenant-qr-order-saas/public/css/base.css
+458	0	cloudflare-multi-tenant-qr-order-saas/public/css/customer.css
+210	0	cloudflare-multi-tenant-qr-order-saas/public/customer.html
+209	0	cloudflare-multi-tenant-qr-order-saas/public/index.html
+310	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+329	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/menu.js
+206	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/orders.js
+171	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/qr.js
+232	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/reports.js
+140	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/settings.js
+81	0	cloudflare-multi-tenant-qr-order-saas/public/js/core/api.js
+86	0	cloudflare-multi-tenant-qr-order-saas/public/js/core/auth.js
+8	0	cloudflare-multi-tenant-qr-order-saas/public/js/core/qrcode.min.js
+56	0	cloudflare-multi-tenant-qr-order-saas/public/js/core/storage.js
+134	0	cloudflare-multi-tenant-qr-order-saas/public/js/core/utils.js
+80	0	cloudflare-multi-tenant-qr-order-saas/public/js/customer/cart.js
+59	0	cloudflare-multi-tenant-qr-order-saas/public/js/customer/checkout.js
+608	0	cloudflare-multi-tenant-qr-order-saas/public/js/customer/menu.js
+122	0	cloudflare-multi-tenant-qr-order-saas/public/js/customer/order.js
+26	0	cloudflare-multi-tenant-qr-order-saas/public/manifest.json
+79	0	cloudflare-multi-tenant-qr-order-saas/public/service-worker.js
+174	0	cloudflare-multi-tenant-qr-order-saas/server.ts
+292	0	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+27	0	cloudflare-multi-tenant-qr-order-saas/tsconfig.json
+112	0	cloudflare-multi-tenant-qr-order-saas/worker/index.js
+501	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/auth.js
+121	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/categories.js
+177	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/orders.js
+184	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/products.js
+152	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/qr.js
+230	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/reports.js
+97	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/stores.js
+79	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/uploads.js
+120	0	cloudflare-multi-tenant-qr-order-saas/worker/services/authService.js
+153	0	cloudflare-multi-tenant-qr-order-saas/worker/services/emailService.js
+179	0	cloudflare-multi-tenant-qr-order-saas/worker/services/orderService.js
+83	0	cloudflare-multi-tenant-qr-order-saas/worker/services/pricingService.js
+38	0	cloudflare-multi-tenant-qr-order-saas/worker/services/qrService.js
+43	0	cloudflare-multi-tenant-qr-order-saas/worker/utils/response.js
+40	0	cloudflare-multi-tenant-qr-order-saas/worker/utils/security.js
+42	0	cloudflare-multi-tenant-qr-order-saas/worker/utils/validation.js
+22	0	cloudflare-multi-tenant-qr-order-saas/wrangler.toml
+230	0	docs/MVP_TASKS.md
+2105	0	docs/TECHNICAL_SPEC.md
+
+COMMIT:58efdfa|hot7585325|feat(qr): support self-created queue and table QR codes with simplified UI and updated docs
+5	3	cloudflare-multi-tenant-qr-order-saas/README.md
+3	0	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+7	4	cloudflare-multi-tenant-qr-order-saas/doc/system_design.md
+27	14	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+79	17	cloudflare-multi-tenant-qr-order-saas/public/js/admin/qr.js
+3	3	cloudflare-multi-tenant-qr-order-saas/public/js/customer/menu.js
+
+COMMIT:cec8d7c|hot7585325|fix(reports): resolve 404 error, base revenue on completed orders, add in-progress banner and update docs
+1	1	cloudflare-multi-tenant-qr-order-saas/README.md
+12	5	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+4	2	cloudflare-multi-tenant-qr-order-saas/doc/system_design.md
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+12	3	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+49	10	cloudflare-multi-tenant-qr-order-saas/public/js/admin/reports.js
+39	16	cloudflare-multi-tenant-qr-order-saas/worker/routes/reports.js
+5	3	docs/MVP_TASKS.md
+
+COMMIT:480aeef|hot7585325|feat(store): sync store info and manager identity across all admin feature pages
+2	1	cloudflare-multi-tenant-qr-order-saas/README.md
+28	7	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+18	6	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+79	21	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+5	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/qr.js
+5	3	cloudflare-multi-tenant-qr-order-saas/public/js/admin/reports.js
+1	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/settings.js
+9	0	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+22	2	cloudflare-multi-tenant-qr-order-saas/worker/routes/stores.js
+
+COMMIT:3afb16b|hot7585325|fix: update real d1 database id
+1	1	cloudflare-multi-tenant-qr-order-saas/wrangler.toml
+
+COMMIT:0d4706b|hot7585325|feat: enable Cloudflare Workers static assets
+2	2	cloudflare-multi-tenant-qr-order-saas/wrangler.toml
+
+COMMIT:d151157|hot7585325|doc嚗憓蝵猓ip?辣
+169	0	docs/CLOUDFLARE_DEPLOYMENT_GUIDE.md
+
+COMMIT:1a401ca|hot7585325|docs: add multi-tenant architecture and routing development guide
+35	5	cloudflare-multi-tenant-qr-order-saas/README.md
+178	0	cloudflare-multi-tenant-qr-order-saas/doc/MULTI_TENANT_ARCHITECTURE.md
+178	0	docs/MULTI_TENANT_ARCHITECTURE.md
+
+COMMIT:63d6b2d|hot7585325|feat(auth): ?啣??詨?蝘?閮剖?瑼?coresetting.json ?舀??頠蒂銵?摨祟?豢???2	0	.gitignore
+2	0	cloudflare-multi-tenant-qr-order-saas/.gitignore
+15	0	cloudflare-multi-tenant-qr-order-saas/coresetting.example.json
+28	3	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+2	0	cloudflare-multi-tenant-qr-order-saas/doc/MULTI_TENANT_ARCHITECTURE.md
+10	6	cloudflare-multi-tenant-qr-order-saas/doc/system_design.md
+53	0	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+220	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/approvals.js
+21	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+48	0	cloudflare-multi-tenant-qr-order-saas/server.ts
+40	0	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+160	63	cloudflare-multi-tenant-qr-order-saas/worker/routes/auth.js
+1	0	cloudflare-multi-tenant-qr-order-saas/worker/services/emailService.js
+2	0	docs/MULTI_TENANT_ARCHITECTURE.md
+
+COMMIT:bb8720d|hot7585325|feat(cloudflare): ?舀 Cloudflare ?垢 D1 擐活?餃?芸?撱箇蔭??董???身蝞∠??∠憓???16	9	cloudflare-multi-tenant-qr-order-saas/server.ts
+30	1	cloudflare-multi-tenant-qr-order-saas/worker/routes/auth.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/services/emailService.js
+1	0	cloudflare-multi-tenant-qr-order-saas/wrangler.toml
+
+COMMIT:53b39ee|hot7585325|fix(utils): ?臬 formatDate ?賢?隞乩耨敺?approvals.js 璅∠?頛?航炊
+2	0	cloudflare-multi-tenant-qr-order-saas/public/js/core/utils.js
+
+COMMIT:6ba0b0d|hot7585325|refactor(ui): 蝘駁敹恍酉?????身皜祈岫撣唾?獢?皜??餃銵典
+2	40	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+1	31	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+
+COMMIT:3dc7f07|hot7585325|feat: 撖虫?撟喳蝞∠?銝剖??極??摰嗆?甈????蝘駁??摰園?甈∠?亥身摰?蝣潸?敹?撖Ⅳ璈
+7	5	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+5	0	cloudflare-multi-tenant-qr-order-saas/migrations/0003_store_licenses.sql
+185	6	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+5	4	cloudflare-multi-tenant-qr-order-saas/public/js/admin/approvals.js
+207	33	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+265	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/platformStores.js
+21	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/settings.js
+13	1	cloudflare-multi-tenant-qr-order-saas/server.ts
+76	3	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+196	5	cloudflare-multi-tenant-qr-order-saas/worker/routes/auth.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/services/authService.js
+15	3	cloudflare-multi-tenant-qr-order-saas/worker/services/orderService.js
+
+COMMIT:70d0a80|hot7585325|fix(d1): 憓? D1 ?芸??芣?靽桀儔?瑞宏??getUserStores 甈?蝻箸???摰寥嚗圾瘙箇??500 ?梢
+32	0	cloudflare-multi-tenant-qr-order-saas/worker/index.js
+30	9	cloudflare-multi-tenant-qr-order-saas/worker/services/authService.js
+
+COMMIT:a90e473|hot7585325|fix(qr): 摰? D1 鞈?摨怨?蝘颯耨敺?QR 蝣潛???500 ?航炊?撥?捆?舫霅?12	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+56	25	cloudflare-multi-tenant-qr-order-saas/public/js/admin/qr.js
+150	8	cloudflare-multi-tenant-qr-order-saas/worker/index.js
+164	119	cloudflare-multi-tenant-qr-order-saas/worker/routes/qr.js
+9	0	cloudflare-multi-tenant-qr-order-saas/worker/services/authService.js
+20	15	cloudflare-multi-tenant-qr-order-saas/worker/services/qrService.js
+
+COMMIT:00068d7|hot7585325|fix(orders): repair D1 orders table missing columns to resolve 500 error in order polling
+32	0	cloudflare-multi-tenant-qr-order-saas/worker/index.js
+46	19	cloudflare-multi-tenant-qr-order-saas/worker/routes/orders.js
+
+COMMIT:57e2bee|hot7585325|docs: ?湔蝟餌絞隞餃?撽皜?漁暺牧???啣??霈蝝??CHANGELOG
+5	2	cloudflare-multi-tenant-qr-order-saas/README.md
+80	0	docs/CHANGELOG.md
+83	6	docs/MVP_TASKS.md
+
+COMMIT:8cabff0|hot7585325|fix(orders): add queue_number column to order insertion and schema migration to fix NOT NULL constraint failure
+1	0	cloudflare-multi-tenant-qr-order-saas/migrations/0001_initial.sql
+4	0	cloudflare-multi-tenant-qr-order-saas/migrations/0004_queue_number.sql
+1	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/orders.js
+1	1	cloudflare-multi-tenant-qr-order-saas/public/js/customer/order.js
+3	0	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+2	0	cloudflare-multi-tenant-qr-order-saas/worker/index.js
+9	2	cloudflare-multi-tenant-qr-order-saas/worker/routes/orders.js
+87	25	cloudflare-multi-tenant-qr-order-saas/worker/services/orderService.js
+
+COMMIT:7213337|hot7585325|fix(orders): dynamically inspect schema to satisfy total_amount and queue_number NOT NULL constraints and normalize query fields
+1	0	cloudflare-multi-tenant-qr-order-saas/migrations/0001_initial.sql
+4	0	cloudflare-multi-tenant-qr-order-saas/migrations/0005_orders_compat.sql
+3	1	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+3	0	cloudflare-multi-tenant-qr-order-saas/worker/index.js
+17	11	cloudflare-multi-tenant-qr-order-saas/worker/routes/orders.js
+10	1	cloudflare-multi-tenant-qr-order-saas/worker/routes/reports.js
+126	73	cloudflare-multi-tenant-qr-order-saas/worker/services/orderService.js
+
+COMMIT:6fedb0c|hot7585325|fix(uploads): resolve image 404 with R2 GET handler, persistent local mock, and frontend fallback
+3	1	.gitignore
+1	1	cloudflare-multi-tenant-qr-order-saas/public/customer.html
+4	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/menu.js
+20	2	cloudflare-multi-tenant-qr-order-saas/public/js/admin/settings.js
+13	4	cloudflare-multi-tenant-qr-order-saas/public/js/customer/menu.js
+55	10	cloudflare-multi-tenant-qr-order-saas/server.ts
+52	2	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+34	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/uploads.js
+26	0	docs/CHANGELOG.md
+6	4	docs/MVP_TASKS.md
+
+COMMIT:9e296c6|hot7585325|feat: add combo promotions engine and reports integration
+33	0	cloudflare-multi-tenant-qr-order-saas/migrations/0006_promotions.sql
+212	0	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+18	0	cloudflare-multi-tenant-qr-order-saas/public/css/admin.css
+16	0	cloudflare-multi-tenant-qr-order-saas/public/css/customer.css
+15	1	cloudflare-multi-tenant-qr-order-saas/public/customer.html
+10	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+629	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/promotions.js
+74	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/reports.js
+189	1	cloudflare-multi-tenant-qr-order-saas/public/js/customer/cart.js
+95	2	cloudflare-multi-tenant-qr-order-saas/public/js/customer/menu.js
+110	0	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+42	0	cloudflare-multi-tenant-qr-order-saas/worker/index.js
+19	3	cloudflare-multi-tenant-qr-order-saas/worker/routes/orders.js
+371	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/promotions.js
+98	6	cloudflare-multi-tenant-qr-order-saas/worker/routes/reports.js
+7	3	cloudflare-multi-tenant-qr-order-saas/worker/services/orderService.js
+169	3	cloudflare-multi-tenant-qr-order-saas/worker/services/pricingService.js
+
+COMMIT:74f8263|hot7585325|fix: set worker name to quickqrder in wrangler.toml
+1	1	cloudflare-multi-tenant-qr-order-saas/wrangler.toml
+
+COMMIT:d9f37b2|hot7585325|docs: update changelog, tasks, handover manual and readme for combo promotions and reports integration
+27	6	cloudflare-multi-tenant-qr-order-saas/README.md
+80	30	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+39	0	docs/CHANGELOG.md
+78	4	docs/MVP_TASKS.md
+
+COMMIT:6dd2e9e|hot7585325|feat: support multi-product mix-and-match candidate pool in combo promotions
+3	3	cloudflare-multi-tenant-qr-order-saas/README.md
+10	3	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+121	18	cloudflare-multi-tenant-qr-order-saas/public/js/admin/promotions.js
+16	20	cloudflare-multi-tenant-qr-order-saas/public/js/customer/cart.js
+66	0	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+29	4	cloudflare-multi-tenant-qr-order-saas/worker/routes/promotions.js
+16	17	cloudflare-multi-tenant-qr-order-saas/worker/services/pricingService.js
+
+COMMIT:65ac670|hot7585325|feat: ?啣?獢?蝧餅???恕?扳撅蝺刻摩?刻?撱KDS????蝮賢擗???28	0	cloudflare-multi-tenant-qr-order-saas/migrations/0007_tables_and_kds.sql
+164	1	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+184	0	cloudflare-multi-tenant-qr-order-saas/public/css/admin.css
+32	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+308	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/kds.js
+889	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/tableTurnover.js
+74	1	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+47	0	cloudflare-multi-tenant-qr-order-saas/worker/index.js
+172	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/floorPlans.js
+143	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/kds.js
+264	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/tableTurnover.js
+18	2	cloudflare-multi-tenant-qr-order-saas/worker/services/orderService.js
+
+COMMIT:9d9edee|hot7585325|feat: ?游??粹????桃??輻璆萇陛?芋撘???憭折?敶蜇???獢?擗?
+48	75	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+6	19	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+0	308	cloudflare-multi-tenant-qr-order-saas/public/js/admin/kds.js
+350	117	cloudflare-multi-tenant-qr-order-saas/public/js/admin/orders.js
+
+COMMIT:8f14059|hot7585325|feat: 撖虫??抒獢??‵頨怠?暺???獢?暺??雿萇巨??蝧餅?蝯?
+22	5	cloudflare-multi-tenant-qr-order-saas/README.md
+18	9	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+63	24	cloudflare-multi-tenant-qr-order-saas/doc/system_design.md
+35	13	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+9	6	cloudflare-multi-tenant-qr-order-saas/public/customer.html
+6	5	cloudflare-multi-tenant-qr-order-saas/public/js/admin/orders.js
+157	62	cloudflare-multi-tenant-qr-order-saas/public/js/admin/promotions.js
+2	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/tableTurnover.js
+18	3	cloudflare-multi-tenant-qr-order-saas/public/js/customer/cart.js
+18	12	cloudflare-multi-tenant-qr-order-saas/public/js/customer/menu.js
+105	0	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+38	8	cloudflare-multi-tenant-qr-order-saas/worker/routes/kds.js
+16	4	cloudflare-multi-tenant-qr-order-saas/worker/routes/promotions.js
+47	6	cloudflare-multi-tenant-qr-order-saas/worker/routes/tableTurnover.js
+9	3	cloudflare-multi-tenant-qr-order-saas/worker/services/pricingService.js
+
+COMMIT:b5b887b|hot7585325|docs: ?湔蝟餌絞閮剛??辣??蝘?嗆?閬?嚗???憿??瑁?120?葫閰?4	1	cloudflare-multi-tenant-qr-order-saas/doc/MULTI_TENANT_ARCHITECTURE.md
+25	2	cloudflare-multi-tenant-qr-order-saas/doc/system_design.md
+
+COMMIT:94b08f5|hot7585325|feat(promotions): ?芣??批捆?寧璇?撘???殷?撠?璇辣?陛瞏?閬粹?撽?9	44	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+129	123	cloudflare-multi-tenant-qr-order-saas/public/js/admin/promotions.js
+
+COMMIT:09b743a|hot7585325|fix(promotions): 靽桀儔蝯??芣?蝺刻摩?脣???D1 bind ??箇 undefined 撠 500 ?航炊
+31	1	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+46	18	cloudflare-multi-tenant-qr-order-saas/worker/routes/promotions.js
+
+COMMIT:26846a6|hot7585325|feat(qr): ?芸?暺?QR瘚?嚗?游摨?梁???蝣潛?璅∪????芋撘??‵憪??餉店
+51	21	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+15	12	cloudflare-multi-tenant-qr-order-saas/public/customer.html
+78	90	cloudflare-multi-tenant-qr-order-saas/public/js/admin/qr.js
+35	80	cloudflare-multi-tenant-qr-order-saas/public/js/customer/menu.js
+3	5	cloudflare-multi-tenant-qr-order-saas/public/js/customer/order.js
+32	1	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+18	14	cloudflare-multi-tenant-qr-order-saas/worker/services/orderService.js
+
+COMMIT:dc70a0d|hot7585325|feat(mobile-menu): ?芸???璅∪?擗???瘥??憓?暺底?之??蝒??膩撅內
+16	1	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+2	0	cloudflare-multi-tenant-qr-order-saas/migrations/0007_tables_and_kds.sql
+52	0	cloudflare-multi-tenant-qr-order-saas/public/css/admin.css
+211	10	cloudflare-multi-tenant-qr-order-saas/public/css/customer.css
+34	0	cloudflare-multi-tenant-qr-order-saas/public/customer.html
+17	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+6	6	cloudflare-multi-tenant-qr-order-saas/public/js/admin/menu.js
+28	9	cloudflare-multi-tenant-qr-order-saas/public/js/admin/orders.js
+111	18	cloudflare-multi-tenant-qr-order-saas/public/js/admin/tableTurnover.js
+162	8	cloudflare-multi-tenant-qr-order-saas/public/js/customer/menu.js
+8	1	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+2	0	cloudflare-multi-tenant-qr-order-saas/worker/index.js
+5	4	cloudflare-multi-tenant-qr-order-saas/worker/routes/tableTurnover.js
+59	0	docs/CHANGELOG.md
+4	3	docs/TECHNICAL_SPEC.md
+
+COMMIT:27a142e|hot7585325|feat: implement product modifiers, dining lobby, dual-track AA split, and session invalidation
+22	3	cloudflare-multi-tenant-qr-order-saas/README.md
+14	9	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+2	0	cloudflare-multi-tenant-qr-order-saas/doc/system_design.md
+53	0	cloudflare-multi-tenant-qr-order-saas/migrations/0008_modifiers_and_lobby.sql
+155	9	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+237	0	cloudflare-multi-tenant-qr-order-saas/public/css/admin.css
+248	3	cloudflare-multi-tenant-qr-order-saas/public/css/customer.css
+108	0	cloudflare-multi-tenant-qr-order-saas/public/customer.html
+649	26	cloudflare-multi-tenant-qr-order-saas/public/js/admin/menu.js
+35	10	cloudflare-multi-tenant-qr-order-saas/public/js/admin/orders.js
+6	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/settings.js
+275	38	cloudflare-multi-tenant-qr-order-saas/public/js/admin/tableTurnover.js
+40	9	cloudflare-multi-tenant-qr-order-saas/public/js/customer/cart.js
+13	4	cloudflare-multi-tenant-qr-order-saas/public/js/customer/checkout.js
+250	0	cloudflare-multi-tenant-qr-order-saas/public/js/customer/lobby.js
+433	16	cloudflare-multi-tenant-qr-order-saas/public/js/customer/menu.js
+126	14	cloudflare-multi-tenant-qr-order-saas/public/js/customer/order.js
+50	2	cloudflare-multi-tenant-qr-order-saas/server.ts
+218	2	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+64	0	cloudflare-multi-tenant-qr-order-saas/worker/index.js
+14	1	cloudflare-multi-tenant-qr-order-saas/worker/routes/kds.js
+214	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/lobby.js
+196	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/modifiers.js
+34	6	cloudflare-multi-tenant-qr-order-saas/worker/routes/products.js
+27	3	cloudflare-multi-tenant-qr-order-saas/worker/routes/stores.js
+249	2	cloudflare-multi-tenant-qr-order-saas/worker/routes/tableTurnover.js
+55	10	cloudflare-multi-tenant-qr-order-saas/worker/services/orderService.js
+129	8	cloudflare-multi-tenant-qr-order-saas/worker/services/pricingService.js
+3	1	cloudflare-multi-tenant-qr-order-saas/worker/services/qrService.js
+40	0	docs/CHANGELOG.md
+
+COMMIT:1f7caa5|hot7585325|refactor: 閫?衣頂蝯梯憭扯?砌蒂璅∠??瑽?(?西澈 Worker??敺???瘜蕃獢?
+15	5	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+611	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/floorPlanCanvas.js
+61	613	cloudflare-multi-tenant-qr-order-saas/public/js/admin/menu.js
+337	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/optionTemplates.js
+406	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/productModifiers.js
+591	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/tableDetailDrawer.js
+165	1071	cloudflare-multi-tenant-qr-order-saas/public/js/admin/tableTurnover.js
+154	0	cloudflare-multi-tenant-qr-order-saas/public/js/customer/customerAuth.js
+71	488	cloudflare-multi-tenant-qr-order-saas/public/js/customer/menu.js
+336	0	cloudflare-multi-tenant-qr-order-saas/public/js/customer/optionsModal.js
+343	0	cloudflare-multi-tenant-qr-order-saas/worker/db/autoMigrate.js
+19	347	cloudflare-multi-tenant-qr-order-saas/worker/index.js
+10	459	cloudflare-multi-tenant-qr-order-saas/worker/routes/auth.js
+406	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/platform.js
+7	2	cloudflare-multi-tenant-qr-order-saas/worker/services/authService.js
+91	0	cloudflare-multi-tenant-qr-order-saas/worker/services/registrationService.js
+32	0	docs/CHANGELOG.md
+
+COMMIT:1b84bbd|hot7585325|docs: ?啣?撠?????垢 UI/UX 閬? (GEMINI.md)
+33	0	GEMINI.md
+33	0	cloudflare-multi-tenant-qr-order-saas/GEMINI.md
+
+COMMIT:ab118b1|hot7585325|refactor: simplify menu layout with 3 sections, direct modifier checkboxes, and declutter AA split
+76	92	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+253	60	cloudflare-multi-tenant-qr-order-saas/public/js/admin/menu.js
+0	337	cloudflare-multi-tenant-qr-order-saas/public/js/admin/optionTemplates.js
+0	406	cloudflare-multi-tenant-qr-order-saas/public/js/admin/productModifiers.js
+1	224	cloudflare-multi-tenant-qr-order-saas/public/js/admin/tableDetailDrawer.js
+0	104	cloudflare-multi-tenant-qr-order-saas/public/js/customer/order.js
+28	0	docs/CHANGELOG.md
+
+COMMIT:beb7e8e|hot7585325|fix(admin): resolve clearCache null reference and pass storeId to option-templates
+3	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/menu.js
+1	7	cloudflare-multi-tenant-qr-order-saas/public/js/admin/tableDetailDrawer.js
+
+COMMIT:cb65653|hot7585325|perf: implement fast bootstrap api and eliminate render blocking scripts
+11	1	cloudflare-multi-tenant-qr-order-saas/README.md
+10	4	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+9	0	cloudflare-multi-tenant-qr-order-saas/doc/system_design.md
+53	0	cloudflare-multi-tenant-qr-order-saas/public/css/customer.css
+34	5	cloudflare-multi-tenant-qr-order-saas/public/customer.html
+5	0	cloudflare-multi-tenant-qr-order-saas/public/js/core/auth.js
+8	2	cloudflare-multi-tenant-qr-order-saas/public/js/customer/lobby.js
+51	10	cloudflare-multi-tenant-qr-order-saas/public/js/customer/menu.js
+15	0	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+105	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/stores.js
+
+COMMIT:4f023f8|hot7585325|docs & refactor: ?啣? SOLID ????撘Ⅳ?交炎閬?嚗蒂皜?垢????
+15	0	GEMINI.md
+15	0	cloudflare-multi-tenant-qr-order-saas/GEMINI.md
+20	38	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+3	15	cloudflare-multi-tenant-qr-order-saas/public/customer.html
+7	10	cloudflare-multi-tenant-qr-order-saas/public/index.html
+1	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/approvals.js
+2	2	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+3	3	cloudflare-multi-tenant-qr-order-saas/public/js/admin/promotions.js
+2	4	cloudflare-multi-tenant-qr-order-saas/public/js/customer/menu.js
+3	3	cloudflare-multi-tenant-qr-order-saas/public/js/customer/order.js
+
+COMMIT:a9d2e1c|hot7585325|feat: ?舀?撣閮???遣蝡?????恣??v1.1.0)銝血?甇亙蝟餌絞?銵?隞?13	0	GEMINI.md
+13	0	cloudflare-multi-tenant-qr-order-saas/GEMINI.md
+5	5	cloudflare-multi-tenant-qr-order-saas/README.md
+20	10	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+4	0	cloudflare-multi-tenant-qr-order-saas/migrations/0009_store_theme_colors.sql
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+70	0	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+2	2	cloudflare-multi-tenant-qr-order-saas/public/css/customer.css
+10	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+92	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/settings.js
+2	0	cloudflare-multi-tenant-qr-order-saas/public/js/customer/menu.js
+25	0	cloudflare-multi-tenant-qr-order-saas/public/js/customer/theme.js
+3	0	cloudflare-multi-tenant-qr-order-saas/server.ts
+30	0	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+5	0	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+8	0	cloudflare-multi-tenant-qr-order-saas/worker/db/autoMigrate.js
+5	4	cloudflare-multi-tenant-qr-order-saas/worker/routes/auth.js
+26	4	cloudflare-multi-tenant-qr-order-saas/worker/routes/stores.js
+74	0	docs/CHANGELOG.md
+53	4	docs/MVP_TASKS.md
+
+COMMIT:9b1f977|hot7585325|feat(reservations): release v1.2.0 with online booking, floor plan sync, and loyalty points CRM
+11	3	cloudflare-multi-tenant-qr-order-saas/README.md
+12	5	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+33	0	cloudflare-multi-tenant-qr-order-saas/doc/system_design.md
+65	0	cloudflare-multi-tenant-qr-order-saas/migrations/0010_reservations_and_loyalty.sql
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+190	0	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+393	0	cloudflare-multi-tenant-qr-order-saas/public/booking.html
+8	0	cloudflare-multi-tenant-qr-order-saas/public/customer.html
+3	0	cloudflare-multi-tenant-qr-order-saas/public/index.html
+10	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+478	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/reservations.js
+36	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/settings.js
+351	0	cloudflare-multi-tenant-qr-order-saas/public/js/booking/booking.js
+3	0	cloudflare-multi-tenant-qr-order-saas/public/js/customer/checkout.js
+7	1	cloudflare-multi-tenant-qr-order-saas/public/js/customer/menu.js
+49	0	cloudflare-multi-tenant-qr-order-saas/server.ts
+121	1	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+72	0	cloudflare-multi-tenant-qr-order-saas/worker/db/autoMigrate.js
+5	0	cloudflare-multi-tenant-qr-order-saas/worker/index.js
+558	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/reservations.js
+48	2	cloudflare-multi-tenant-qr-order-saas/worker/routes/stores.js
+19	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/tableTurnover.js
+102	0	cloudflare-multi-tenant-qr-order-saas/worker/services/loyaltyService.js
+15	3	cloudflare-multi-tenant-qr-order-saas/worker/services/orderService.js
+48	0	docs/CHANGELOG.md
+21	2	docs/MVP_TASKS.md
+
+COMMIT:590dd52|hot7585325|fix(reservations): decouple future bookings from live table floor plan, upgrade date scope and CRM (v1.2.1)
+9	2	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+2	0	cloudflare-multi-tenant-qr-order-saas/migrations/0011_store_background_color.sql
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+86	24	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+27	2	cloudflare-multi-tenant-qr-order-saas/public/css/customer.css
+345	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/colorWheel.js
+234	70	cloudflare-multi-tenant-qr-order-saas/public/js/admin/reservations.js
+82	4	cloudflare-multi-tenant-qr-order-saas/public/js/admin/settings.js
+33	4	cloudflare-multi-tenant-qr-order-saas/public/js/admin/tableDetailDrawer.js
+17	2	cloudflare-multi-tenant-qr-order-saas/public/js/booking/booking.js
+49	3	cloudflare-multi-tenant-qr-order-saas/public/js/customer/theme.js
+1	0	cloudflare-multi-tenant-qr-order-saas/server.ts
+49	3	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+2	0	cloudflare-multi-tenant-qr-order-saas/worker/db/autoMigrate.js
+101	36	cloudflare-multi-tenant-qr-order-saas/worker/routes/reservations.js
+9	3	cloudflare-multi-tenant-qr-order-saas/worker/routes/stores.js
+50	3	cloudflare-multi-tenant-qr-order-saas/worker/routes/tableTurnover.js
+72	1	docs/CHANGELOG.md
+
+COMMIT:d63aa4f|hot7585325|feat: ?啣?摨振甇瑕閮??璆剝?摰皜??嚗蒂?湔?銵?鈭斗?辣 (v1.3.0)
+10	5	cloudflare-multi-tenant-qr-order-saas/README.md
+7	0	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+5	1	cloudflare-multi-tenant-qr-order-saas/doc/system_design.md
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+56	0	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+99	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/reports.js
+38	1	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+75	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/orders.js
+2	2	cloudflare-multi-tenant-qr-order-saas/worker/routes/reservations.js
+
+COMMIT:062e54a|hot7585325|feat(security): bump version to v1.3.1 with comprehensive security hardening
+6	1	cloudflare-multi-tenant-qr-order-saas/README.md
+17	0	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+10	7	cloudflare-multi-tenant-qr-order-saas/public/js/admin/approvals.js
+182	0	cloudflare-multi-tenant-qr-order-saas/tests/securitySuite.js
+4	0	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+12	19	cloudflare-multi-tenant-qr-order-saas/worker/routes/auth.js
+3	3	cloudflare-multi-tenant-qr-order-saas/worker/routes/orders.js
+4	4	cloudflare-multi-tenant-qr-order-saas/worker/routes/reservations.js
+26	3	cloudflare-multi-tenant-qr-order-saas/worker/routes/uploads.js
+95	9	cloudflare-multi-tenant-qr-order-saas/worker/utils/security.js
+37	0	docs/CHANGELOG.md
+
+COMMIT:a8ff39a|hot7585325|feat(upload): bump version to v1.4.0 with client-side image compression and webp conversion
+18	2	cloudflare-multi-tenant-qr-order-saas/package-lock.json
+2	1	cloudflare-multi-tenant-qr-order-saas/package.json
+6	6	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+9	27	cloudflare-multi-tenant-qr-order-saas/public/js/admin/menu.js
+7	25	cloudflare-multi-tenant-qr-order-saas/public/js/admin/settings.js
+9	0	cloudflare-multi-tenant-qr-order-saas/public/js/core/browser-image-compression.js
+174	0	cloudflare-multi-tenant-qr-order-saas/public/js/core/imageCompressor.js
+1	1	cloudflare-multi-tenant-qr-order-saas/tests/securitySuite.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+22	0	docs/CHANGELOG.md
+
+COMMIT:656af74|hot7585325|docs(rules): add Git staging and multi-session isolation guardrails to GEMINI.md
+16	0	GEMINI.md
+16	0	cloudflare-multi-tenant-qr-order-saas/GEMINI.md
+
+COMMIT:002e66f|hot7585325|fix(auth): clarify forgot-password copywriting and optimize email auto-fill flow (v1.4.1)
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+5	5	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+11	5	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+1	1	cloudflare-multi-tenant-qr-order-saas/tests/securitySuite.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+1	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/auth.js
+13	5	cloudflare-multi-tenant-qr-order-saas/worker/services/emailService.js
+
+COMMIT:4ba2613|hot7585325|feat(export): modularize admin.html templates and add one-click store and platform configuration export with security hardening (v1.5.0)
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+4	1445	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+2	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+121	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/platformStores.js
+66	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/settings.js
+557	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/dialogs.template.js
+34	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/index.js
+49	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabApprovals.template.js
+84	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabMenu.template.js
+40	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabOrders.template.js
+65	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabPlatformStores.template.js
+32	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabPromotions.template.js
+54	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabQr.template.js
+57	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabReservations.template.js
+181	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabRevenue.template.js
+305	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabSettings.template.js
+45	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabTableTurnover.template.js
+57	1	cloudflare-multi-tenant-qr-order-saas/tests/securitySuite.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+27	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/platform.js
+35	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/stores.js
+278	0	cloudflare-multi-tenant-qr-order-saas/worker/services/exportService.js
+
+COMMIT:1676759|hot7585325|feat(skills): add mobile-ui-audit, gemini-guardrail-linter, and cloudflare-d1-workflow skills; bump version to 1.6.0
+37	0	.agent/skills/cloudflare-d1-workflow/SKILL.md
+29	0	.agent/skills/cloudflare-d1-workflow/references/d1-workflow.md
+91	0	.agent/skills/cloudflare-d1-workflow/scripts/check-d1-migrations.js
+27	0	.agent/skills/gemini-guardrail-linter/SKILL.md
+116	0	.agent/skills/gemini-guardrail-linter/scripts/lint-guardrails.js
+33	0	.agent/skills/mobile-ui-audit/SKILL.md
+120	0	.agent/skills/mobile-ui-audit/scripts/audit-mobile.js
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+1	1	cloudflare-multi-tenant-qr-order-saas/tests/securitySuite.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+
+COMMIT:324c775|hot7585325|feat(admin): support customizable navigation tabs and feature modules per store (v1.7.0)
+4	0	cloudflare-multi-tenant-qr-order-saas/migrations/0012_store_feature_modules.sql
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+60	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+29	2	cloudflare-multi-tenant-qr-order-saas/public/js/admin/settings.js
+60	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabSettings.template.js
+29	0	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+2	0	cloudflare-multi-tenant-qr-order-saas/worker/db/autoMigrate.js
+26	3	cloudflare-multi-tenant-qr-order-saas/worker/routes/stores.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/services/authService.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/services/exportService.js
+
+COMMIT:718d765|hot7585325|feat(admin): add keyword search, category filter, and display sorting to menu management (v1.8.0)
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+125	3	cloudflare-multi-tenant-qr-order-saas/public/js/admin/menu.js
+30	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabMenu.template.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+
+COMMIT:a097017|hot7585325|docs: document keyword search, category filter, and inline sorting for menu management in README and AGENT_HANDOVER
+4	0	cloudflare-multi-tenant-qr-order-saas/README.md
+18	1	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+
+COMMIT:bbb0ffb|hot7585325|docs: document customizable navigation tabs and feature modules (v1.7.0)
+4	0	cloudflare-multi-tenant-qr-order-saas/README.md
+19	1	cloudflare-multi-tenant-qr-order-saas/doc/AGENT_HANDOVER.md
+38	0	docs/CHANGELOG.md
+
+COMMIT:96daa78|hot7585325|docs: add system progress document v1.8.0 following standard progress documentation template
+98	0	cloudflare-multi-tenant-qr-order-saas/doc/progress/system_progress_v1.8.0.md
+
+COMMIT:8163a2d|hot7585325|docs(progress): add progress documentation for store feature modules and system overview
+65	0	docs/progress/store_feature_modules.md
+82	0	docs/progress/system_progress_overview.md
+
+COMMIT:711994a|hot7585325|docs: add menu management search, filter, and inline sorting progress doc in docs/progress
+74	0	docs/progress/menu_management_search_sort.md
+
+COMMIT:e1d6578|hot7585325|docs: add rule 6 in GEMINI.md and establish D1 database design specification in docs/progress
+22	0	GEMINI.md
+624	0	docs/progress/database_design.md
+
+COMMIT:5022da6|hot7585325|feat(security-and-queue): 撖虫?????蝣潮霅琿??啗????怨????蝟餌絞 (v1.10.0)
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+4	0	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+22	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+40	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/floorPlanCanvas.js
+31	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/qr.js
+507	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/queue.js
+26	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/tableDetailDrawer.js
+9	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/dialogs.template.js
+2	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/index.js
+177	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabQueue.template.js
+32	0	cloudflare-multi-tenant-qr-order-saas/public/js/customer/checkout.js
+143	0	cloudflare-multi-tenant-qr-order-saas/public/js/customer/passcodeModal.js
+655	0	cloudflare-multi-tenant-qr-order-saas/public/queue.html
+203	1	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+28	1	cloudflare-multi-tenant-qr-order-saas/worker/db/autoMigrate.js
+5	0	cloudflare-multi-tenant-qr-order-saas/worker/index.js
+26	9	cloudflare-multi-tenant-qr-order-saas/worker/routes/qr.js
+360	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/queue.js
+49	2	cloudflare-multi-tenant-qr-order-saas/worker/routes/tableTurnover.js
+20	0	cloudflare-multi-tenant-qr-order-saas/worker/services/orderService.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/services/qrService.js
+22	0	docs/CHANGELOG.md
+27	0	docs/progress/database_design.md
+74	0	docs/progress/queue_ticketing_and_passcode_defense.md
+
+COMMIT:55c13f3|hot7585325|feat(takeaway-queue): ?????怨??箇?憭葆?怨????銝行?“摰Ｘ?璈??????(v1.11.0)
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+2	2	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+231	371	cloudflare-multi-tenant-qr-order-saas/public/js/admin/queue.js
+41	113	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabQueue.template.js
+16	6	cloudflare-multi-tenant-qr-order-saas/public/js/customer/checkout.js
+3	1	cloudflare-multi-tenant-qr-order-saas/public/js/customer/lobby.js
+20	0	cloudflare-multi-tenant-qr-order-saas/public/js/customer/menu.js
+108	5	cloudflare-multi-tenant-qr-order-saas/public/js/customer/order.js
+103	13	cloudflare-multi-tenant-qr-order-saas/public/js/customer/passcodeModal.js
+82	0	cloudflare-multi-tenant-qr-order-saas/tests/suite.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+1	0	cloudflare-multi-tenant-qr-order-saas/worker/db/autoMigrate.js
+10	1	cloudflare-multi-tenant-qr-order-saas/worker/routes/lobby.js
+53	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/orders.js
+54	0	cloudflare-multi-tenant-qr-order-saas/worker/routes/qr.js
+11	1	cloudflare-multi-tenant-qr-order-saas/worker/routes/stores.js
+24	0	docs/CHANGELOG.md
+7	6	docs/progress/queue_ticketing_and_passcode_defense.md
+
+COMMIT:27ab30d|hot7585325|fix(security): 撖虫?????蝣潮脤??脰風???脤???撽? (v1.11.1)
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+20	0	docs/CHANGELOG.md
+9	5	docs/progress/queue_ticketing_and_passcode_defense.md
+
+COMMIT:45f6071|hot7585325|docs(progress): ?郊蝟餌絞?嗆??冽芋蝯脣漲蝮質汗??v1.11.1 銝西??脤???????撣嗅????16	7	docs/progress/system_progress_overview.md
+
+COMMIT:429554e|hot7585325|feat(admin-ui): ??敺??撠汗撌乩??唬蒂?港蔥?粹??怨???雿R蝣?1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+2	9	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+0	36	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+113	16	cloudflare-multi-tenant-qr-order-saas/public/js/admin/orders.js
+66	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/reservations.js
+1	4	cloudflare-multi-tenant-qr-order-saas/public/js/admin/settings.js
+115	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/tableDetailDrawer.js
+115	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/tableTurnover.js
+0	4	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/index.js
+68	33	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabOrders.template.js
+74	49	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabReservations.template.js
+6	15	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabSettings.template.js
+61	38	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabTableTurnover.template.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+73	0	docs/progress/ui_navigation_consolidation.md
+
+COMMIT:4e18fe7|hot7585325|feat(admin-ui): ?函?憭葆??撌乩??啜陛??蝝???皜?祕雿?折??銵?霅衣內??摰嗉身摰?憸函??
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+4	0	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+22	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+33	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/floorPlanCanvas.js
+7	8	cloudflare-multi-tenant-qr-order-saas/public/js/admin/orders.js
+11	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/queue.js
+104	92	cloudflare-multi-tenant-qr-order-saas/public/js/admin/reservations.js
+11	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/settings.js
+105	3	cloudflare-multi-tenant-qr-order-saas/public/js/admin/tableDetailDrawer.js
+2	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/index.js
+1	33	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabOrders.template.js
+4	1	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabQueue.template.js
+12	12	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabReservations.template.js
+371	299	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabSettings.template.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+8	7	cloudflare-multi-tenant-qr-order-saas/worker/routes/tableTurnover.js
+64	58	docs/progress/ui_navigation_consolidation.md
+
+COMMIT:b6b0909|hot7585325|refactor(憿批恥?): 蝘駁???隢?擗??質??頛芾岷隞亦移蝪∩??Ｚ???
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+0	36	cloudflare-multi-tenant-qr-order-saas/public/css/customer.css
+0	59	cloudflare-multi-tenant-qr-order-saas/public/customer.html
+11	27	cloudflare-multi-tenant-qr-order-saas/public/js/customer/menu.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+
+COMMIT:e102874|kai|fix(menu,reservations): 撖虫??垢銵典?脤??????蝡舐???芰??駁??脰風 (v1.13.2)
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+86	9	cloudflare-multi-tenant-qr-order-saas/public/js/admin/menu.js
+75	9	cloudflare-multi-tenant-qr-order-saas/public/js/admin/reservations.js
+17	3	cloudflare-multi-tenant-qr-order-saas/public/js/admin/tableDetailDrawer.js
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+53	11	cloudflare-multi-tenant-qr-order-saas/worker/routes/categories.js
+15	1	cloudflare-multi-tenant-qr-order-saas/worker/routes/modifiers.js
+57	16	cloudflare-multi-tenant-qr-order-saas/worker/routes/products.js
+84	5	cloudflare-multi-tenant-qr-order-saas/worker/routes/reservations.js
+17	0	docs/CHANGELOG.md
+4	1	docs/progress/menu_management_search_sort.md
+1	0	docs/progress/system_progress_overview.md
+
+COMMIT:5e8f7fc|kai|feat(i18n): ?啣??交?/頞????望???蝟餃????舀??SOLID 璅∠?????瑽?(v1.14.0)
+6	0	cloudflare-multi-tenant-qr-order-saas/migrations/0013_multilingual_i18n.sql
+1	1	cloudflare-multi-tenant-qr-order-saas/package.json
+32	31	cloudflare-multi-tenant-qr-order-saas/public/admin.html
+288	0	cloudflare-multi-tenant-qr-order-saas/public/css/admin-components.css
+13	300	cloudflare-multi-tenant-qr-order-saas/public/css/admin.css
+196	20	cloudflare-multi-tenant-qr-order-saas/public/css/base.css
+408	0	cloudflare-multi-tenant-qr-order-saas/public/css/customer-modals.css
+31	434	cloudflare-multi-tenant-qr-order-saas/public/css/customer.css
+28	29	cloudflare-multi-tenant-qr-order-saas/public/customer.html
+38	102	cloudflare-multi-tenant-qr-order-saas/public/index.html
+25	43	cloudflare-multi-tenant-qr-order-saas/public/js/admin/dashboard.js
+33	121	cloudflare-multi-tenant-qr-order-saas/public/js/admin/menu.js
+272	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/menuI18nHelper.js
+293	0	cloudflare-multi-tenant-qr-order-saas/public/js/admin/promotionRowBuilders.js
+6	313	cloudflare-multi-tenant-qr-order-saas/public/js/admin/promotions.js
+176	211	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/dialogs.template.js
+63	57	cloudflare-multi-tenant-qr-order-saas/public/js/booking/booking.js
+314	0	cloudflare-multi-tenant-qr-order-saas/public/js/core/i18n.js
+626	0	cloudflare-multi-tenant-qr-order-saas/public/js/core/i18nDict.js
+272	0	cloudflare-multi-tenant-qr-order-saas/public/js/core/i18nPhrases.js
+239	0	cloudflare-multi-tenant-qr-order-saas/public/js/customer/cartModal.js
+12	12	cloudflare-multi-tenant-qr-order-saas/public/js/customer/customerAuth.js
+84	251	cloudflare-multi-tenant-qr-order-saas/public/js/customer/menu.js
+21	14	cloudflare-multi-tenant-qr-order-saas/public/js/customer/optionsModal.js
+46	39	cloudflare-multi-tenant-qr-order-saas/public/js/customer/order.js
+24	26	cloudflare-multi-tenant-qr-order-saas/public/js/customer/passcodeModal.js
+90	31	cloudflare-multi-tenant-qr-order-saas/public/queue.html
+1	1	cloudflare-multi-tenant-qr-order-saas/worker/config/version.js
+7	1	cloudflare-multi-tenant-qr-order-saas/worker/db/autoMigrate.js
+25	12	cloudflare-multi-tenant-qr-order-saas/worker/routes/stores.js
+24	0	docs/CHANGELOG.md
+103	63	docs/progress/database_design.md
+61	0	docs/progress/multilingual_i18n.md
+9	4	docs/progress/system_progress_overview.md
+
+COMMIT:047d419|kai|feat(ui): 撖虫??典?摮????Ｖ?畾萇葬?曄頂蝯曹蒂蝘駁?函頂蝯勗?擗圾隤芣?摮?(v1.15.0)
+29	31	cloudflare-multi-tenant-qr-order-saas/public/booking.html
+37	44	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabApprovals.template.js
+97	104	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabMenu.template.js
+10	15	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabOrders.template.js
+53	60	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabPlatformStores.template.js
+23	28	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabPromotions.template.js
+33	46	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabQr.template.js
+33	41	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabQueue.template.js
+22	31	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabReservations.template.js
+156	168	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabRevenue.template.js
+171	224	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabSettings.template.js
+18	21	cloudflare-multi-tenant-qr-order-saas/public/js/admin/templates/tabTableTurnover.template.js
+138	0	cloudflare-multi-tenant-qr-order-saas/public/js/core/uiScale.js
+14	0	docs/CHANGELOG.md
+8	3	docs/progress/system_progress_overview.md
+64	0	docs/progress/ui_scaling_and_clean_copy.md
