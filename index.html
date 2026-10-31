@@ -92,13 +92,26 @@
 
     <!-- Quick Actions -->
     <div class="flex items-center gap-3">
-      <button id="btnLoadSample" class="px-3 py-1.5 text-xs font-mono font-medium bg-neutral-900 hover:bg-neutral-800 text-green-400 rounded-lg border border-green-900/80 hover:border-green-500/50 transition flex items-center gap-1.5">
+      <!-- One-click Local Git Path Input -->
+      <div class="flex items-center bg-black border border-green-500/50 rounded-lg p-0.5 shadow-[0_0_10px_rgba(34,197,94,0.15)]">
+        <div class="pl-2.5 pr-1 text-green-500 font-mono text-xs flex items-center gap-1">
+          <i data-lucide="folder-git-2" class="w-3.5 h-3.5"></i>
+          <span>本地 Git 路徑:</span>
+        </div>
+        <input type="text" id="repoPathInput" placeholder="例如: d:\03-曾卓絢\Porject\GitMusic 或 .." value="." class="bg-neutral-900 text-xs font-mono text-green-300 px-2 py-1 rounded w-60 focus:outline-none focus:ring-1 focus:ring-green-400 placeholder:text-neutral-600">
+        <button id="btnFetchRepo" class="px-3 py-1 text-xs font-mono font-bold bg-green-500 hover:bg-green-400 text-black rounded ml-1 transition flex items-center gap-1">
+          <i data-lucide="zap" class="w-3.5 h-3.5 fill-black"></i>
+          一鍵載入
+        </button>
+      </div>
+
+      <button id="btnLoadSample" class="px-3 py-1.5 text-xs font-mono font-medium bg-neutral-900 hover:bg-neutral-800 text-neutral-300 hover:text-green-400 rounded-lg border border-neutral-800 transition flex items-center gap-1.5">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-green-400"></i>
-        載入遊戲範例
+        範例
       </button>
-      <label class="px-3 py-1.5 text-xs font-mono font-medium bg-neutral-900 hover:bg-neutral-800 text-neutral-300 rounded-lg border border-neutral-800 hover:border-green-700 transition cursor-pointer flex items-center gap-1.5">
-        <i data-lucide="file-up" class="w-3.5 h-3.5 text-green-400"></i>
-        匯入 Git Log
+      <label class="px-3 py-1.5 text-xs font-mono font-medium bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 rounded-lg border border-neutral-800 transition cursor-pointer flex items-center gap-1.5" title="手動上傳檔案">
+        <i data-lucide="file-up" class="w-3.5 h-3.5"></i>
+        匯入 Log
         <input type="file" id="fileInput" accept=".txt,.log" class="hidden">
       </label>
       <button id="btnExportMidi" class="px-3.5 py-1.5 text-xs font-mono font-bold bg-green-950/90 hover:bg-green-900 text-green-300 rounded-lg border border-green-500/60 shadow-[0_0_10px_rgba(34,197,94,0.2)] transition flex items-center gap-1.5">
@@ -1050,6 +1063,48 @@
         loadDataset(commits);
       };
       reader.readAsText(file);
+    });
+
+    // One-click Local Git Path Fetcher
+    async function fetchLocalGitLog(path) {
+      const btn = document.getElementById('btnFetchRepo');
+      const originalHtml = btn.innerHTML;
+      btn.innerHTML = `<span class="animate-spin mr-1">⏳</span> 讀取中...`;
+      btn.disabled = true;
+
+      try {
+        const targetUrl = `http://localhost:5055/api/git-log?path=${encodeURIComponent(path)}`;
+        const res = await fetch(targetUrl);
+        if (!res.ok) {
+          throw new Error(await res.text());
+        }
+        const text = await res.text();
+        const commits = parseGitLogText(text);
+        if (!commits || commits.length === 0) {
+          alert('未能解析出提交紀錄，請確認該路徑下是否有有效的 Git Commit！');
+          return;
+        }
+        loadDataset(commits);
+      } catch (err) {
+        console.error(err);
+        alert(`無法連線到本地 Git 服務或路徑無效！\n\n提示：請確保已點擊專案目錄下的「start.bat」啟動本機伺服器。\n錯誤詳情: ${err.message}`);
+      } finally {
+        btn.innerHTML = originalHtml;
+        btn.disabled = false;
+        lucide.createIcons();
+      }
+    }
+
+    document.getElementById('btnFetchRepo').addEventListener('click', () => {
+      const pathVal = document.getElementById('repoPathInput').value.trim() || '.';
+      fetchLocalGitLog(pathVal);
+    });
+
+    document.getElementById('repoPathInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const pathVal = document.getElementById('repoPathInput').value.trim() || '.';
+        fetchLocalGitLog(pathVal);
+      }
     });
 
     // Start
