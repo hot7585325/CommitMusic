@@ -1,0 +1,14 @@
+- **紀錄時間**：2026-10-31
+- **當前目標與背景**：全面評估 GitMusic 矩陣步進音序器接入開源音樂製作生態（DAW、Live Coding、Web Audio）之可行性、相容性斷層、技術優缺點與後續架構升級路線圖，並建立標準化架構規格文件。
+- **已完成事項清單**：
+  - [x] 完成開源音樂專案（DAW、Live Coding、Web Audio）整合之技術與工作流可行性評估。
+  - [x] 撰寫並建立完整架構規格文件 `docs/OPEN_SOURCE_MUSIC_INTEGRATION.md`，定義核心優勢、關鍵瓶頸、對接架構圖（Mermaid）與 Phase 1~3 實作路線圖。
+  - [x] 標註關鍵技術缺口：缺乏 Standard MIDI File (`.mid`) 與 Web MIDI API 協議支援，目前僅支援波形音訊（WAV / MP3）輸出。
+- **待辦事項 / 已知問題**：
+  - [ ] 規劃引入輕量 MIDI 匯出函式庫（如 `midi-writer-js`）以支援多軌 MIDI 檔案輸出。
+  - [ ] 規劃 Stems 分軌離線渲染匯出（WAV Zip）功能。
+  - [ ] 規劃 Web MIDI API 實時虛擬端口發送機制。
+- **核心檔案對照表**：
+  - `docs/OPEN_SOURCE_MUSIC_INTEGRATION.md`：GitMusic 接入開源音樂製作項目之適配性與架構評估規格書。
+  - `js/exporter.js`：當前音訊離線渲染與 WAV/MP3 匯出引擎（未來 MIDI 與 Stems 擴充目標）。
+  - `js/audio.js`：Tone.js 音訊節點排程與即時合成器控制器。
