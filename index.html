@@ -11,63 +11,97 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    /* Custom scrollbar */
+    /* Hacker / Matrix Neon Green Aesthetic */
+    :root {
+      --neon-green: #22c55e;
+      --neon-green-glow: #4ade80;
+    }
+
+    /* Custom scrollbars */
     ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
     }
     ::-webkit-scrollbar-track {
-      background: #0f172a;
+      background: #050505;
     }
     ::-webkit-scrollbar-thumb {
-      background: #334155;
-      border-radius: 4px;
+      background: #14532d;
+      border-radius: 3px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #475569;
+      background: #22c55e;
     }
+
+    /* Active Playhead Step - Neon Scan Line */
     .active-step {
-      background-color: rgba(99, 102, 241, 0.25) !important;
-      border-color: #818cf8 !important;
+      background-color: rgba(34, 197, 94, 0.15) !important;
+      border-left: 1px solid #22c55e !important;
+      border-right: 1px solid #22c55e !important;
     }
-    .cell-glow {
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.7);
+    .active-step-header {
+      background-color: rgba(34, 197, 94, 0.3) !important;
+      color: #4ade80 !important;
+      text-shadow: 0 0 8px rgba(74, 222, 128, 0.8);
+      border-bottom: 2px solid #22c55e !important;
+    }
+
+    /* Excel Drag Selection Highlight Box */
+    .selection-box {
+      outline: 2px solid #22c55e !important;
+      outline-offset: -2px;
+      background-color: rgba(34, 197, 94, 0.22) !important;
+    }
+
+    /* Draggable Pan Cursor */
+    .pan-grab {
+      cursor: grab;
+    }
+    .pan-grabbing {
+      cursor: grabbing !important;
+    }
+
+    .neon-text-glow {
+      text-shadow: 0 0 10px rgba(34, 197, 94, 0.7), 0 0 20px rgba(34, 197, 94, 0.4);
+    }
+    .neon-border-glow {
+      box-shadow: 0 0 15px rgba(34, 197, 94, 0.25);
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans select-none">
+<body class="bg-[#050505] text-neutral-200 min-h-screen flex flex-col font-sans select-none antialiased">
 
   <!-- Header -->
-  <header class="bg-slate-900 border-b border-slate-800 px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+  <header class="bg-[#0a0a0a] border-b border-green-950/80 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
     <div class="flex items-center gap-3">
-      <div class="p-2.5 bg-indigo-600 rounded-xl shadow-lg shadow-indigo-500/30 flex items-center justify-center">
-        <i data-lucide="music" class="w-6 h-6 text-white"></i>
+      <div class="p-2.5 bg-black border border-green-500/60 rounded-xl shadow-[0_0_15px_rgba(34,197,94,0.3)] flex items-center justify-center">
+        <i data-lucide="terminal" class="w-6 h-6 text-green-400"></i>
       </div>
       <div>
         <div class="flex items-center gap-2">
-          <h1 class="text-xl font-bold bg-gradient-to-r from-indigo-400 via-sky-300 to-purple-400 bg-clip-text text-transparent">
-            GitMusic
+          <h1 class="text-xl font-black tracking-wider text-green-400 neon-text-glow">
+            GIT_MUSIC
           </h1>
-          <span class="px-2 py-0.5 text-xs font-semibold bg-indigo-900/60 text-indigo-300 border border-indigo-700/50 rounded-full">
-            Game BGM Sequencer
+          <span class="px-2 py-0.5 text-[11px] font-mono font-semibold bg-green-950/80 text-green-300 border border-green-500/40 rounded">
+            MATRIX BGM SEQUENCER
           </span>
         </div>
-        <p class="text-xs text-slate-400">將專案 Git 提交紀錄轉化為遊戲音樂的步進矩陣</p>
+        <p class="text-xs text-neutral-500 font-mono">將專案 Git 提交歷史轉化為步進矩陣遊戲音序器</p>
       </div>
     </div>
 
     <!-- Quick Actions -->
     <div class="flex items-center gap-3">
-      <button id="btnLoadSample" class="px-3.5 py-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
-        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
-        載入遊戲專案範例
+      <button id="btnLoadSample" class="px-3 py-1.5 text-xs font-mono font-medium bg-neutral-900 hover:bg-neutral-800 text-green-400 rounded-lg border border-green-900/80 hover:border-green-500/50 transition flex items-center gap-1.5">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-green-400"></i>
+        載入遊戲範例
       </button>
-      <label class="px-3.5 py-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition cursor-pointer flex items-center gap-1.5">
-        <i data-lucide="file-text" class="w-3.5 h-3.5 text-sky-400"></i>
-        匯入 Git Log 檔案
+      <label class="px-3 py-1.5 text-xs font-mono font-medium bg-neutral-900 hover:bg-neutral-800 text-neutral-300 rounded-lg border border-neutral-800 hover:border-green-700 transition cursor-pointer flex items-center gap-1.5">
+        <i data-lucide="file-up" class="w-3.5 h-3.5 text-green-400"></i>
+        匯入 Git Log
         <input type="file" id="fileInput" accept=".txt,.log" class="hidden">
       </label>
-      <button id="btnExportMidi" class="px-3.5 py-1.5 text-xs font-medium bg-emerald-900/60 hover:bg-emerald-800/80 text-emerald-200 rounded-lg border border-emerald-700/60 transition flex items-center gap-1.5">
+      <button id="btnExportMidi" class="px-3.5 py-1.5 text-xs font-mono font-bold bg-green-950/90 hover:bg-green-900 text-green-300 rounded-lg border border-green-500/60 shadow-[0_0_10px_rgba(34,197,94,0.2)] transition flex items-center gap-1.5">
         <i data-lucide="download" class="w-3.5 h-3.5"></i>
         匯出音訊 (.WAV)
       </button>
@@ -75,21 +109,36 @@
   </header>
 
   <!-- Control & Dashboard Bar -->
-  <section class="bg-slate-900/70 border-b border-slate-800/80 px-6 py-3.5 flex flex-wrap items-center justify-between gap-6 backdrop-blur">
+  <section class="bg-[#080808] border-b border-green-950/60 px-6 py-3 flex flex-wrap items-center justify-between gap-5">
     <!-- Playback Controls -->
     <div class="flex items-center gap-3">
-      <button id="btnPlayPause" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center gap-2">
-        <i data-lucide="play" id="playIcon" class="w-4 h-4 fill-white"></i>
-        <span id="playText">播放 BGM</span>
+      <button id="btnPlayPause" class="px-5 py-2 bg-green-500 hover:bg-green-400 active:scale-95 text-black font-extrabold font-mono rounded-xl shadow-[0_0_20px_rgba(34,197,94,0.4)] transition flex items-center gap-2">
+        <i data-lucide="play" id="playIcon" class="w-4 h-4 fill-black"></i>
+        <span id="playText">PLAY BGM</span>
       </button>
-      <button id="btnStop" class="p-2 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 rounded-xl border border-slate-700 transition" title="停止並重置">
+      <button id="btnStop" class="p-2 bg-neutral-900 hover:bg-neutral-800 active:scale-95 text-neutral-400 hover:text-green-400 rounded-xl border border-neutral-800 transition" title="停止並重置">
         <i data-lucide="square" class="w-4 h-4"></i>
       </button>
-      <div class="h-6 w-px bg-slate-800 mx-1"></div>
+      <div class="h-6 w-px bg-neutral-800 mx-1"></div>
+      
+      <!-- Drag Mode Switcher (Excel Cell Drag vs Table Pan) -->
+      <div class="flex items-center gap-1.5 bg-black p-1 rounded-xl border border-green-950 text-xs font-mono">
+        <button id="toolSelect" class="px-2.5 py-1 rounded-lg bg-green-600 text-black font-bold flex items-center gap-1 transition" title="類似 Excel 拖曳選取/連續填色">
+          <i data-lucide="crosshair" class="w-3.5 h-3.5"></i>
+          框選 / 刷填
+        </button>
+        <button id="toolPan" class="px-2.5 py-1 rounded-lg text-neutral-400 hover:text-neutral-200 flex items-center gap-1 transition" title="按住滑鼠拖動畫布滾動">
+          <i data-lucide="hand" class="w-3.5 h-3.5"></i>
+          平移畫布
+        </button>
+      </div>
+
+      <div class="h-6 w-px bg-neutral-800 mx-1"></div>
+
       <!-- Mode Toggle -->
-      <div class="bg-slate-950 p-1 rounded-xl border border-slate-800 flex text-xs font-medium">
-        <button id="modeBpm" class="px-3 py-1 rounded-lg bg-indigo-600 text-white shadow transition">依節拍 (BPM)</button>
-        <button id="modeDuration" class="px-3 py-1 rounded-lg text-slate-400 hover:text-slate-200 transition">依總時長 (秒)</button>
+      <div class="bg-black p-1 rounded-xl border border-neutral-800 flex text-xs font-mono">
+        <button id="modeBpm" class="px-3 py-1 rounded-lg bg-green-500/20 text-green-300 border border-green-500/50 shadow transition">BPM 模式</button>
+        <button id="modeDuration" class="px-3 py-1 rounded-lg text-neutral-400 hover:text-neutral-200 transition">總時長 (秒)</button>
       </div>
     </div>
 
@@ -97,150 +146,149 @@
     <div class="flex items-center gap-6 flex-wrap">
       <!-- BPM Control -->
       <div id="bpmContainer" class="flex items-center gap-2.5">
-        <span class="text-xs font-medium text-slate-400">速度 (BPM):</span>
-        <input type="range" id="bpmSlider" min="60" max="240" value="128" class="w-28 accent-indigo-500 cursor-pointer">
-        <span id="bpmVal" class="text-xs font-mono font-bold text-indigo-400 w-8">128</span>
+        <span class="text-xs font-mono text-neutral-400">BPM:</span>
+        <input type="range" id="bpmSlider" min="60" max="240" value="128" class="w-28 accent-green-500 cursor-pointer">
+        <span id="bpmVal" class="text-xs font-mono font-bold text-green-400 w-8">128</span>
       </div>
 
-      <!-- Duration Control (Initially hidden or integrated) -->
-      <div id="durationContainer" class="flex items-center gap-2.5 opacity-60">
-        <span class="text-xs font-medium text-slate-400">總時長:</span>
-        <input type="range" id="durationSlider" min="5" max="120" value="15" disabled class="w-28 accent-indigo-500 cursor-pointer">
-        <span id="durationVal" class="text-xs font-mono font-bold text-sky-400 w-12">15.0s</span>
+      <!-- Duration Control -->
+      <div id="durationContainer" class="flex items-center gap-2.5 opacity-40">
+        <span class="text-xs font-mono text-neutral-400">總時長:</span>
+        <input type="range" id="durationSlider" min="5" max="120" value="15" disabled class="w-28 accent-green-500 cursor-pointer">
+        <span id="durationVal" class="text-xs font-mono font-bold text-green-400 w-12">15.0s</span>
       </div>
 
       <!-- Step Division -->
       <div class="flex items-center gap-2">
-        <span class="text-xs font-medium text-slate-400">每 Commit 拍數:</span>
-        <select id="stepDivision" class="bg-slate-800 border border-slate-700 text-xs text-slate-200 rounded-lg px-2.5 py-1 focus:outline-none focus:border-indigo-500">
-          <option value="16n">1/4 拍 (16分音符 - 快節奏)</option>
-          <option value="8n" selected>1/2 拍 (8分音符 - 標準)</option>
-          <option value="4n">1 拍 (4分音符 - 慢速舒緩)</option>
+        <span class="text-xs font-mono text-neutral-400">節拍:</span>
+        <select id="stepDivision" class="bg-neutral-900 border border-neutral-800 text-xs font-mono text-green-300 rounded-lg px-2.5 py-1 focus:outline-none focus:border-green-500">
+          <option value="16n">1/4 拍 (16分音符 - 快)</option>
+          <option value="8n" selected>1/2 拍 (8分音符 - 中)</option>
+          <option value="4n">1 拍 (4分音符 - 穩)</option>
         </select>
       </div>
 
       <!-- Sound Theme Preset -->
       <div class="flex items-center gap-2">
-        <span class="text-xs font-medium text-slate-400">遊戲音色風格:</span>
-        <select id="soundPreset" class="bg-slate-800 border border-slate-700 text-xs text-slate-200 rounded-lg px-2.5 py-1 focus:outline-none focus:border-indigo-500">
+        <span class="text-xs font-mono text-neutral-400">音色風格:</span>
+        <select id="soundPreset" class="bg-neutral-900 border border-neutral-800 text-xs font-mono text-green-300 rounded-lg px-2.5 py-1 focus:outline-none focus:border-green-500">
           <option value="chiptune">👾 8-Bit 像素懷舊 (Chiptune)</option>
           <option value="synthwave">🌆 賽博龐克合成器 (Synthwave)</option>
-          <option value="lofi">☕ 溫馨獨立小品 (Acoustic/LoFi)</option>
+          <option value="lofi">☕ 溫馨獨立小品 (LoFi)</option>
         </select>
       </div>
     </div>
 
     <!-- Playback Info Status -->
-    <div class="hidden lg:flex items-center gap-4 text-xs font-mono text-slate-400 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800">
-      <div>拍點: <span id="currentStepText" class="text-slate-200 font-bold">0 / 0</span></div>
-      <div class="text-slate-700">|</div>
-      <div>時間: <span id="currentTimeText" class="text-slate-200 font-bold">00:00</span></div>
+    <div class="hidden lg:flex items-center gap-4 text-xs font-mono text-neutral-400 bg-black px-3.5 py-1.5 rounded-lg border border-green-950">
+      <div>拍點: <span id="currentStepText" class="text-green-400 font-bold">0 / 0</span></div>
+      <div class="text-neutral-700">|</div>
+      <div>時間: <span id="currentTimeText" class="text-green-400 font-bold">00:00</span></div>
     </div>
   </section>
 
-  <!-- Current Commit Banner (Shows current step metadata) -->
-  <div class="bg-indigo-950/40 border-b border-indigo-900/30 px-6 py-2 flex items-center justify-between text-xs text-indigo-200">
+  <!-- Current Commit Banner -->
+  <div class="bg-green-950/20 border-b border-green-900/30 px-6 py-2 flex items-center justify-between text-xs text-green-300/90 font-mono">
     <div class="flex items-center gap-3 overflow-hidden">
-      <span class="px-2 py-0.5 bg-indigo-900/80 rounded text-[11px] font-mono text-indigo-300 uppercase tracking-wider" id="activeCommitHash">HEAD</span>
-      <span class="font-medium truncate" id="activeCommitMsg">點擊「播放 BGM」開始演奏專案歷史...</span>
+      <span class="px-2 py-0.5 bg-black border border-green-500/40 rounded text-[11px] font-mono text-green-400 uppercase tracking-wider" id="activeCommitHash">HEAD</span>
+      <span class="truncate text-neutral-300" id="activeCommitMsg">點擊「PLAY BGM」開始演奏專案歷史...</span>
     </div>
-    <div class="flex items-center gap-4 shrink-0 text-slate-400 text-[11px]">
+    <div class="flex items-center gap-4 shrink-0 text-neutral-500 text-[11px]">
       <span id="activeCommitAuthor">作者: -</span>
       <span id="activeCommitFiles">異動檔案: -</span>
     </div>
   </div>
 
   <!-- Main Content: Sequencer Matrix Grid -->
-  <main class="flex-1 overflow-auto p-6">
-    <div class="bg-slate-900 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden flex flex-col">
+  <main class="flex-1 overflow-hidden p-5 flex flex-col">
+    <div class="bg-black rounded-2xl border border-green-950/90 shadow-[0_0_30px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col flex-1">
+      
       <!-- Table Header & Toolbar -->
-      <div class="p-4 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between gap-4">
-        <div class="flex items-center gap-2">
-          <h2 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
-            <i data-lucide="layers" class="w-4 h-4 text-indigo-400"></i>
-            提交軌道矩陣 (Commit Matrix Sequencer)
-          </h2>
-          <span id="matrixStats" class="text-xs text-slate-500 font-normal">(共 0 個檔案軌道，0 次提交)</span>
+      <div class="p-3.5 bg-[#0a0a0a] border-b border-green-950/70 flex items-center justify-between gap-4 font-mono text-xs">
+        <div class="flex items-center gap-3">
+          <span class="font-bold text-green-400 flex items-center gap-2">
+            <i data-lucide="table" class="w-4 h-4 text-green-400"></i>
+            GIT COMMIT MATRIX SEQUENCER
+          </span>
+          <span id="matrixStats" class="text-neutral-500">(0 軌道, 0 拍點)</span>
+          <span class="hidden md:inline text-neutral-600">|</span>
+          <span class="hidden md:inline text-neutral-400 text-[11px]">💡 支援按住滑鼠<b>像 Excel 一樣拖曳連續塗抹/切換音符</b>；或切換成<b>平移模式</b>拖動表格</span>
         </div>
-        <div class="flex items-center gap-3 text-xs text-slate-400">
-          <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-emerald-500"></span> 新增 (A)</div>
-          <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-sky-500"></span> 修改 (M)</div>
-          <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-rose-500"></span> 刪除 (D)</div>
-          <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-slate-800 border border-slate-700"></span> 休止符 (_)</div>
+
+        <!-- Legend -->
+        <div class="flex items-center gap-4 text-neutral-400">
+          <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-green-500 shadow-[0_0_6px_#22c55e]"></span> 新增 (A)</div>
+          <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-emerald-400"></span> 修改 (M)</div>
+          <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-red-500/80"></span> 刪除 (D)</div>
+          <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-neutral-900 border border-neutral-800"></span> 休止符 (_)</div>
         </div>
       </div>
 
-      <!-- Sequencer Table Container -->
-      <div class="overflow-x-auto max-h-[60vh] relative" id="matrixScrollContainer">
+      <!-- Scrollable Sequencer Table Canvas -->
+      <div class="overflow-auto flex-1 relative bg-[#050505]" id="matrixScrollContainer">
         <table class="w-full text-left border-collapse" id="sequencerTable">
           <thead>
-            <tr class="bg-slate-950/90 sticky top-0 z-20 border-b border-slate-800 text-xs font-mono text-slate-400">
-              <th class="p-3 pl-4 sticky left-0 z-30 bg-slate-950 min-w-[240px] max-w-[280px] border-r border-slate-800 shadow-lg">
+            <tr class="bg-[#080808] sticky top-0 z-20 border-b border-green-950 text-xs font-mono text-neutral-400">
+              <th class="p-3 pl-4 sticky left-0 z-30 bg-[#080808] min-w-[240px] max-w-[280px] border-r border-green-950 shadow-lg text-green-400">
                 檔案 / 內容名稱
               </th>
-              <th class="p-3 text-center min-w-[120px] max-w-[140px] border-r border-slate-800">
+              <th class="p-2.5 text-center min-w-[130px] max-w-[140px] border-r border-green-950">
                 指派樂器
               </th>
-              <th class="p-3 text-center min-w-[80px] border-r border-slate-800">
+              <th class="p-2.5 text-center min-w-[80px] border-r border-green-950">
                 音高 (Pitch)
               </th>
               <!-- Commit Headers will be injected dynamically -->
             </tr>
           </thead>
-          <tbody id="matrixTbody" class="text-xs font-mono divide-y divide-slate-800/60">
+          <tbody id="matrixTbody" class="text-xs font-mono divide-y divide-neutral-900/60">
             <!-- Rows injected dynamically -->
           </tbody>
         </table>
       </div>
-    </div>
 
-    <!-- Instructions / Tips -->
-    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-400">
-      <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800/80">
-        <h3 class="font-semibold text-slate-200 mb-1 flex items-center gap-1.5">
-          <i data-lucide="help-circle" class="w-4 h-4 text-indigo-400"></i>
-          如何將真實專案轉換？
-        </h3>
-        <p class="leading-relaxed">
-          在任何 Git 專案執行：<br>
-          <code class="text-indigo-300 bg-slate-950 px-1.5 py-0.5 rounded text-[11px] block mt-1 select-all">git log --reverse --pretty=format:"COMMIT:%h|%an|%s" --numstat > gitlog.txt</code>
-          然後點擊右上角「匯入 Git Log 檔案」即可生成！
-        </p>
+      <!-- Excel Batch Action Bar (Appears when dragging selection) -->
+      <div id="selectionActionBar" class="hidden px-5 py-2.5 bg-[#0d0d0d] border-t border-green-900/50 flex items-center justify-between font-mono text-xs text-neutral-300">
+        <div class="flex items-center gap-3">
+          <span class="text-green-400 font-bold" id="selectedCountText">已選取 0 格</span>
+          <span class="text-neutral-600">|</span>
+          <span class="text-neutral-400">批次操作：</span>
+          <button id="btnBatchTurnOn" class="px-2.5 py-1 bg-green-950 hover:bg-green-900 text-green-300 border border-green-500/50 rounded transition">全部填入音符 (o)</button>
+          <button id="btnBatchTurnOff" class="px-2.5 py-1 bg-neutral-900 hover:bg-neutral-800 text-neutral-300 border border-neutral-700 rounded transition">全部清除休止 (_)</button>
+        </div>
+        <button id="btnClearSelection" class="text-neutral-500 hover:text-neutral-300">取消選取 (Esc)</button>
       </div>
-      <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800/80">
-        <h3 class="font-semibold text-slate-200 mb-1 flex items-center gap-1.5">
-          <i data-lucide="sliders" class="w-4 h-4 text-sky-400"></i>
-          表格即是編曲機
-        </h3>
-        <p class="leading-relaxed">
-          您可以直接在表格的 <span class="text-sky-300 font-bold">o</span> 或 <span class="text-slate-500">_</span> 格子上點擊，自由增加或消除音符。右側也可以更換每軌的樂器與音高。
-        </p>
-      </div>
-      <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800/80">
-        <h3 class="font-semibold text-slate-200 mb-1 flex items-center gap-1.5">
-          <i data-lucide="gamepad-2" class="w-4 h-4 text-emerald-400"></i>
-          防走音五聲音階 (Pentatonic)
-        </h3>
-        <p class="leading-relaxed">
-          預設鎖定為大調/小調五聲音階（C, D, E, G, A）。不管同一次提交同時更動了多少個檔案，合奏時保證聽感和諧不刺耳！
-        </p>
-      </div>
+
     </div>
   </main>
 
   <!-- Script Logic -->
   <script>
-    // Lucide icons init
     lucide.createIcons();
 
-    // Sound Engine State
+    // App State
     let isPlaying = false;
     let currentStep = 0;
     let totalSteps = 0;
     let stepEventId = null;
     let timingMode = 'bpm'; // 'bpm' or 'duration'
+    let currentTool = 'select'; // 'select' (Excel drag) or 'pan' (canvas drag)
 
-    // Preset Instruments
+    // Excel Drag & Selection State
+    let isMouseDown = false;
+    let dragStartCell = null; // { fIdx, cIdx }
+    let dragCurrentCell = null;
+    let selectedCells = new Set(); // set of "fIdx_cIdx"
+    let dragFillTargetState = null; // null or boolean (true for turning on, false for turning off)
+
+    // Canvas Pan State
+    let isPanning = false;
+    let panStartX = 0;
+    let panStartY = 0;
+    let scrollStartLeft = 0;
+    let scrollStartTop = 0;
+
+    // Presets
     const INSTRUMENT_TYPES = {
       lead: { name: '🎹 8-Bit Lead', type: 'synth', note: 'C4' },
       bass: { name: '🎸 Synth Bass', type: 'bass', note: 'C2' },
@@ -248,10 +296,10 @@
       kick: { name: '🥁 Kick Drum', type: 'kick', note: 'C1' },
       snare: { name: '💥 Snare Drum', type: 'snare', note: 'C2' },
       hihat: { name: '🎩 Hi-Hat', type: 'hihat', note: 'G4' },
-      chime: { name: '🔔 Chime/Coin', type: 'synth', note: 'A5' }
+      chime: { name: '🔔 8-Bit Coin', type: 'synth', note: 'A5' }
     };
 
-    // Pentatonic scale notes pool for melodic tracks
+    // Pentatonic scale
     const MELODY_SCALE = ['C3', 'D3', 'E3', 'G3', 'A3', 'C4', 'D4', 'E4', 'G4', 'A4', 'C5', 'E5'];
     const BASS_SCALE = ['C2', 'D2', 'E2', 'G2', 'A2', 'C3'];
 
@@ -277,14 +325,14 @@
       }).connect(synths.reverb);
       synths.leadSynth.volume.value = -6;
 
-      // Bass Synth (Triangle / Fat Sub)
+      // Bass Synth (Triangle)
       synths.bassSynth = new Tone.PolySynth(Tone.Synth, {
         oscillator: { type: 'triangle' },
         envelope: { attack: 0.02, decay: 0.3, sustain: 0.4, release: 0.3 }
       }).connect(synths.reverb);
       synths.bassSynth.volume.value = -3;
 
-      // Kick Drum (Membrane)
+      // Kick Drum
       synths.kickSynth = new Tone.MembraneSynth({
         pitchDecay: 0.05,
         octaves: 6,
@@ -293,14 +341,14 @@
       }).toDestination();
       synths.kickSynth.volume.value = 0;
 
-      // Snare Drum (Noise + Tone)
+      // Snare Drum
       synths.snareSynth = new Tone.NoiseSynth({
         noise: { type: 'white' },
         envelope: { attack: 0.001, decay: 0.15, sustain: 0 }
       }).toDestination();
       synths.snareSynth.volume.value = -7;
 
-      // Hi-Hat (Metal / High-pass Noise)
+      // Hi-Hat
       synths.hihatSynth = new Tone.MetalSynth({
         frequency: 200,
         envelope: { attack: 0.001, decay: 0.05, release: 0.02 },
@@ -312,7 +360,6 @@
       synths.hihatSynth.volume.value = -16;
     }
 
-    // Sound Themes update
     function updateSoundPreset(preset) {
       if (!synths.leadSynth) return;
       if (preset === 'chiptune') {
@@ -330,7 +377,7 @@
       }
     }
 
-    // Default Sample Data (Game Project Simulation)
+    // Default Sample Data
     const SAMPLE_COMMITS = [
       { hash: 'a1b2c3', author: 'Alex', msg: 'init: Unity project architecture and player controller', changes: { 'PlayerController.cs': { type: 'A', lines: 65 }, 'README.md': { type: 'A', lines: 15 } } },
       { hash: 'd4e5f6', author: 'Alex', msg: 'feat: add player jump and ground check mechanics', changes: { 'PlayerController.cs': { type: 'M', lines: 28 }, 'GameManager.cs': { type: 'A', lines: 40 } } },
@@ -346,18 +393,15 @@
       { hash: 'aabbcc', author: 'Alex', msg: 'v1.0.0-release: ready for steam game jam build', changes: { 'README.md': { type: 'M', lines: 40 }, 'GameManager.cs': { type: 'M', lines: 10 }, 'PlayerController.cs': { type: 'M', lines: 5 } } }
     ];
 
-    // Current State
     let commitsData = [];
     let filesList = [];
-    let gridMatrix = {}; // key: `${fileIndex}_${commitIndex}` -> { active: boolean, type: 'A'|'M'|'D', lines: number }
-    let trackSettings = []; // array of { file, instrument, note, isMuted }
+    let gridMatrix = {};
+    let trackSettings = [];
 
-    // Initialize with sample
     function loadDataset(commits) {
       commitsData = commits;
       totalSteps = commits.length;
 
-      // Extract unique files
       const filesMap = new Map();
       commits.forEach((c) => {
         Object.keys(c.changes).forEach((file) => {
@@ -365,10 +409,8 @@
         });
       });
 
-      // Sort files by occurrence / importance
       filesList = Array.from(filesMap.keys()).sort((a, b) => filesMap.get(b) - filesMap.get(a));
 
-      // Build grid matrix & track settings
       gridMatrix = {};
       trackSettings = [];
 
@@ -376,7 +418,6 @@
       let bassNoteIdx = 0;
 
       filesList.forEach((file, fIdx) => {
-        // Smart Assign Instrument based on file extension & name
         let instrument = 'lead';
         let note = 'C4';
 
@@ -406,7 +447,6 @@
           isMuted: false
         });
 
-        // Populate steps
         commits.forEach((c, cIdx) => {
           if (c.changes[file]) {
             gridMatrix[`${fIdx}_${cIdx}`] = {
@@ -424,59 +464,56 @@
         });
       });
 
+      clearSelection();
       renderSequencerTable();
       updateTimingCalculations();
       resetPlayback();
     }
 
-    // Render Table UI
     function renderSequencerTable() {
       const thead = document.querySelector('#sequencerTable thead tr');
       const tbody = document.getElementById('matrixTbody');
 
-      // Clear existing commit headers (keep first 3 columns)
       while (thead.children.length > 3) {
         thead.removeChild(thead.lastChild);
       }
       tbody.innerHTML = '';
 
-      // Append commit headers
       commitsData.forEach((c, idx) => {
         const th = document.createElement('th');
-        th.className = `p-2.5 text-center min-w-[70px] border-r border-slate-800/80 commit-col-${idx} cursor-pointer hover:bg-slate-800/50 transition`;
+        th.className = `p-2.5 text-center min-w-[65px] border-r border-green-950/70 commit-col-${idx} cursor-pointer hover:bg-neutral-900 transition`;
         th.title = `${c.hash} - ${c.msg} (${c.author})`;
         th.innerHTML = `
-          <div class="text-[11px] font-bold text-slate-300">c${idx + 1}</div>
-          <div class="text-[10px] text-slate-500 truncate w-14 mx-auto">${c.hash}</div>
+          <div class="text-[11px] font-bold text-neutral-300">c${idx + 1}</div>
+          <div class="text-[10px] text-green-500/70 truncate w-14 mx-auto">${c.hash}</div>
         `;
         th.addEventListener('click', () => jumpToStep(idx));
         thead.appendChild(th);
       });
 
-      // Append Rows
       filesList.forEach((file, fIdx) => {
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-800/30 transition group';
+        tr.className = 'hover:bg-neutral-900/40 transition group';
         tr.dataset.fileIndex = fIdx;
 
-        // 1. File Name Column (Sticky)
+        // 1. File Name (Sticky Left)
         const tdName = document.createElement('td');
-        tdName.className = 'p-3 pl-4 sticky left-0 z-10 bg-slate-900 group-hover:bg-slate-800/90 border-r border-slate-800 shadow-md font-mono text-xs flex items-center justify-between gap-2';
+        tdName.className = 'p-3 pl-4 sticky left-0 z-10 bg-[#080808] group-hover:bg-[#111] border-r border-green-950 shadow-md font-mono text-xs flex items-center justify-between gap-2';
         tdName.innerHTML = `
-          <div class="truncate font-medium text-slate-200" title="${file}">
+          <div class="truncate font-medium text-neutral-200" title="${file}">
             ${file}
           </div>
-          <button class="mute-btn text-[11px] px-1.5 py-0.5 rounded border ${trackSettings[fIdx].isMuted ? 'bg-rose-900/60 text-rose-300 border-rose-700' : 'bg-slate-800 text-slate-400 border-slate-700 hover:text-slate-200'}" data-file-idx="${fIdx}">
+          <button class="mute-btn text-[11px] px-1.5 py-0.5 rounded border ${trackSettings[fIdx].isMuted ? 'bg-red-950 text-red-400 border-red-800' : 'bg-neutral-900 text-neutral-400 border-neutral-800 hover:text-neutral-200'}" data-file-idx="${fIdx}">
             ${trackSettings[fIdx].isMuted ? 'Muted' : 'Mute'}
           </button>
         `;
         tr.appendChild(tdName);
 
-        // 2. Instrument Select Column
+        // 2. Instrument Select
         const tdInst = document.createElement('td');
-        tdInst.className = 'p-2 border-r border-slate-800/80 text-center';
+        tdInst.className = 'p-2 border-r border-green-950/70 text-center';
         const instSelect = document.createElement('select');
-        instSelect.className = 'bg-slate-800 border border-slate-700 text-[11px] text-slate-200 rounded px-1.5 py-0.5 w-full focus:outline-none';
+        instSelect.className = 'bg-neutral-900 border border-neutral-800 text-[11px] text-green-400 rounded px-1.5 py-0.5 w-full focus:outline-none focus:border-green-500';
         Object.keys(INSTRUMENT_TYPES).forEach(k => {
           const opt = document.createElement('option');
           opt.value = k;
@@ -490,11 +527,11 @@
         tdInst.appendChild(instSelect);
         tr.appendChild(tdInst);
 
-        // 3. Pitch Note Column
+        // 3. Pitch Note Select
         const tdNote = document.createElement('td');
-        tdNote.className = 'p-2 border-r border-slate-800/80 text-center';
+        tdNote.className = 'p-2 border-r border-green-950/70 text-center';
         const noteSelect = document.createElement('select');
-        noteSelect.className = 'bg-slate-800 border border-slate-700 text-[11px] text-indigo-300 font-bold rounded px-1 py-0.5 w-full focus:outline-none text-center';
+        noteSelect.className = 'bg-neutral-900 border border-neutral-800 text-[11px] text-green-300 font-bold rounded px-1 py-0.5 w-full focus:outline-none focus:border-green-500 text-center';
         ['C1','G1','C2','E2','G2','A2','C3','D3','E3','G3','A3','C4','D4','E4','G4','A4','C5','E5','G5'].forEach(n => {
           const opt = document.createElement('option');
           opt.value = n;
@@ -508,17 +545,40 @@
         tdNote.appendChild(noteSelect);
         tr.appendChild(tdNote);
 
-        // 4. Matrix Steps Columns
+        // 4. Matrix Steps Columns (Interactive Grid)
         commitsData.forEach((_, cIdx) => {
           const tdCell = document.createElement('td');
-          tdCell.className = `p-2 text-center border-r border-slate-800/50 commit-col-${cIdx} transition cursor-pointer`;
+          tdCell.className = `p-1 text-center border-r border-green-950/40 commit-col-${cIdx} transition cursor-pointer select-none`;
           tdCell.id = `cell_${fIdx}_${cIdx}`;
+          tdCell.dataset.fIdx = fIdx;
+          tdCell.dataset.cIdx = cIdx;
 
           renderCellContent(tdCell, fIdx, cIdx);
 
-          // Click to toggle note on/off
-          tdCell.addEventListener('click', () => {
-            toggleCell(fIdx, cIdx);
+          // Drag Events for Excel Selection & Note Painting
+          tdCell.addEventListener('mousedown', (e) => {
+            if (currentTool !== 'select' || e.button !== 0) return;
+            isMouseDown = true;
+            dragStartCell = { fIdx, cIdx };
+            dragCurrentCell = { fIdx, cIdx };
+
+            // Determine if clicking an active note or blank
+            const cellData = gridMatrix[`${fIdx}_${cIdx}`];
+            dragFillTargetState = !(cellData && cellData.active);
+
+            // Toggle starting cell immediately
+            toggleSingleCellState(fIdx, cIdx, dragFillTargetState);
+
+            updateSelectionRange(dragStartCell, dragCurrentCell);
+          });
+
+          tdCell.addEventListener('mouseenter', () => {
+            if (!isMouseDown || currentTool !== 'select') return;
+            dragCurrentCell = { fIdx, cIdx };
+            
+            // Excel style: continuously apply the paint state to dragged cells
+            toggleSingleCellState(fIdx, cIdx, dragFillTargetState);
+            updateSelectionRange(dragStartCell, dragCurrentCell);
           });
 
           tr.appendChild(tdCell);
@@ -537,56 +597,171 @@
         });
       });
 
-      // Update stats text
-      document.getElementById('matrixStats').textContent = `(共 ${filesList.length} 個檔案軌道，${commitsData.length} 次提交拍點)`;
+      document.getElementById('matrixStats').textContent = `(${filesList.length} 檔案軌道, ${commitsData.length} 提交拍點)`;
       lucide.createIcons();
     }
 
-    // Render single cell
     function renderCellContent(td, fIdx, cIdx) {
       const cellData = gridMatrix[`${fIdx}_${cIdx}`];
+      const isSelected = selectedCells.has(`${fIdx}_${cIdx}`);
+
+      if (isSelected) {
+        td.classList.add('selection-box');
+      } else {
+        td.classList.remove('selection-box');
+      }
+
       if (cellData && cellData.active) {
-        let colorClass = 'bg-sky-500 text-white shadow-sky-500/50';
-        if (cellData.type === 'A') colorClass = 'bg-emerald-500 text-white shadow-emerald-500/50';
-        if (cellData.type === 'D') colorClass = 'bg-rose-500 text-white shadow-rose-500/50';
+        let colorStyle = 'bg-green-500 text-black shadow-[0_0_8px_#22c55e]';
+        if (cellData.type === 'A') colorStyle = 'bg-emerald-400 text-black shadow-[0_0_10px_#34d399]';
+        if (cellData.type === 'D') colorStyle = 'bg-rose-600 text-white shadow-[0_0_8px_#e11d48]';
 
         td.innerHTML = `
-          <div class="w-6 h-6 mx-auto rounded-md ${colorClass} flex items-center justify-center font-bold text-xs shadow-sm hover:scale-110 transition active:scale-90" title="異動行數: ${cellData.lines || 1}">
+          <div class="w-6 h-6 mx-auto rounded ${colorStyle} flex items-center justify-center font-black text-xs transition active:scale-90" title="異動行數: ${cellData.lines || 1}">
             o
           </div>
         `;
       } else {
         td.innerHTML = `
-          <div class="w-6 h-6 mx-auto rounded-md bg-slate-950/60 border border-slate-800 text-slate-700 flex items-center justify-center text-xs hover:border-slate-600 hover:text-slate-400 transition">
+          <div class="w-6 h-6 mx-auto rounded bg-[#0a0a0a] border border-neutral-900 text-neutral-800 flex items-center justify-center text-xs hover:border-green-900/60 hover:text-green-600 transition">
             _
           </div>
         `;
       }
     }
 
-    // Toggle Cell status
-    function toggleCell(fIdx, cIdx) {
+    function toggleSingleCellState(fIdx, cIdx, targetState) {
       initAudio();
-      const cellData = gridMatrix[`${fIdx}_${cIdx}`];
-      if (cellData && cellData.active) {
-        cellData.active = false;
-      } else {
-        gridMatrix[`${fIdx}_${cIdx}`] = {
-          active: true,
-          type: 'M',
-          lines: 10
-        };
-        // Preview sound on click
-        playTrackSound(fIdx, 0.8);
+      if (!gridMatrix[`${fIdx}_${cIdx}`]) {
+        gridMatrix[`${fIdx}_${cIdx}`] = { active: false, type: 'M', lines: 10 };
+      }
+      gridMatrix[`${fIdx}_${cIdx}`].active = targetState;
+      if (targetState) {
+        if (!gridMatrix[`${fIdx}_${cIdx}`].type) gridMatrix[`${fIdx}_${cIdx}`].type = 'M';
+        playTrackSound(fIdx, 0.75);
       }
       const td = document.getElementById(`cell_${fIdx}_${cIdx}`);
-      renderCellContent(td, fIdx, cIdx);
+      if (td) renderCellContent(td, fIdx, cIdx);
     }
 
-    // Trigger sound for track
+    // Excel Range Selection Update
+    function updateSelectionRange(start, end) {
+      selectedCells.clear();
+      const minF = Math.min(start.fIdx, end.fIdx);
+      const maxF = Math.max(start.fIdx, end.fIdx);
+      const minC = Math.min(start.cIdx, end.cIdx);
+      const maxC = Math.max(start.cIdx, end.cIdx);
+
+      for (let f = minF; f <= maxF; f++) {
+        for (let c = minC; c <= maxC; c++) {
+          selectedCells.add(`${f}_${c}`);
+        }
+      }
+
+      // Re-render visual selection
+      document.querySelectorAll('#matrixTbody td[id^="cell_"]').forEach(td => {
+        const f = parseInt(td.dataset.fIdx);
+        const c = parseInt(td.dataset.cIdx);
+        renderCellContent(td, f, c);
+      });
+
+      // Show Action Bar
+      if (selectedCells.size > 1) {
+        document.getElementById('selectionActionBar').classList.remove('hidden');
+        document.getElementById('selectedCountText').textContent = `已選取 ${selectedCells.size} 格 (${maxF - minF + 1} 軌 × ${maxC - minC + 1} 拍)`;
+      } else {
+        document.getElementById('selectionActionBar').classList.add('hidden');
+      }
+    }
+
+    function clearSelection() {
+      selectedCells.clear();
+      dragStartCell = null;
+      dragCurrentCell = null;
+      document.getElementById('selectionActionBar').classList.add('hidden');
+      document.querySelectorAll('.selection-box').forEach(el => el.classList.remove('selection-box'));
+    }
+
+    // Global Mouse Handlers for Dragging
+    window.addEventListener('mouseup', () => {
+      isMouseDown = false;
+      isPanning = false;
+      const container = document.getElementById('matrixScrollContainer');
+      container.classList.remove('pan-grabbing');
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        clearSelection();
+      }
+    });
+
+    // Canvas Pan (Hand tool drag)
+    const scrollContainer = document.getElementById('matrixScrollContainer');
+    scrollContainer.addEventListener('mousedown', (e) => {
+      if (currentTool === 'pan' && e.button === 0) {
+        isPanning = true;
+        panStartX = e.pageX - scrollContainer.offsetLeft;
+        panStartY = e.pageY - scrollContainer.offsetTop;
+        scrollStartLeft = scrollContainer.scrollLeft;
+        scrollStartTop = scrollContainer.scrollTop;
+        scrollContainer.classList.add('pan-grabbing');
+      }
+    });
+
+    scrollContainer.addEventListener('mousemove', (e) => {
+      if (!isPanning || currentTool !== 'pan') return;
+      e.preventDefault();
+      const x = e.pageX - scrollContainer.offsetLeft;
+      const y = e.pageY - scrollContainer.offsetTop;
+      const walkX = (x - panStartX) * 1.5;
+      const walkY = (y - panStartY) * 1.5;
+      scrollContainer.scrollLeft = scrollStartLeft - walkX;
+      scrollContainer.scrollTop = scrollStartTop - walkY;
+    });
+
+    // Batch Action Bar Handlers
+    document.getElementById('btnBatchTurnOn').addEventListener('click', () => {
+      selectedCells.forEach(key => {
+        const [f, c] = key.split('_').map(Number);
+        if (!gridMatrix[key]) gridMatrix[key] = { active: false, type: 'M', lines: 10 };
+        gridMatrix[key].active = true;
+        const td = document.getElementById(`cell_${f}_${c}`);
+        if (td) renderCellContent(td, f, c);
+      });
+    });
+
+    document.getElementById('btnBatchTurnOff').addEventListener('click', () => {
+      selectedCells.forEach(key => {
+        const [f, c] = key.split('_').map(Number);
+        if (gridMatrix[key]) gridMatrix[key].active = false;
+        const td = document.getElementById(`cell_${f}_${c}`);
+        if (td) renderCellContent(td, f, c);
+      });
+    });
+
+    document.getElementById('btnClearSelection').addEventListener('click', clearSelection);
+
+    // Tool switcher buttons
+    document.getElementById('toolSelect').addEventListener('click', () => {
+      currentTool = 'select';
+      document.getElementById('toolSelect').className = 'px-2.5 py-1 rounded-lg bg-green-600 text-black font-bold flex items-center gap-1 transition';
+      document.getElementById('toolPan').className = 'px-2.5 py-1 rounded-lg text-neutral-400 hover:text-neutral-200 flex items-center gap-1 transition';
+      scrollContainer.classList.remove('pan-grab', 'pan-grabbing');
+    });
+
+    document.getElementById('toolPan').addEventListener('click', () => {
+      currentTool = 'pan';
+      document.getElementById('toolPan').className = 'px-2.5 py-1 rounded-lg bg-green-600 text-black font-bold flex items-center gap-1 transition';
+      document.getElementById('toolSelect').className = 'px-2.5 py-1 rounded-lg text-neutral-400 hover:text-neutral-200 flex items-center gap-1 transition';
+      clearSelection();
+      scrollContainer.classList.add('pan-grab');
+    });
+
+    // Sound Playback
     function playTrackSound(fIdx, velocity = 0.8) {
       const track = trackSettings[fIdx];
-      if (track.isMuted) return;
+      if (!track || track.isMuted) return;
 
       const inst = track.instrument;
       const note = track.note;
@@ -601,7 +776,6 @@
         } else if (inst === 'bass') {
           synths.bassSynth.triggerAttackRelease(note, '8n', undefined, velocity);
         } else {
-          // lead & others
           synths.leadSynth.triggerAttackRelease(note, '16n', undefined, velocity);
         }
       } catch (e) {
@@ -609,13 +783,10 @@
       }
     }
 
-    // Timing & Duration Calculations
     function updateTimingCalculations() {
       const bpm = parseFloat(document.getElementById('bpmSlider').value);
       const division = document.getElementById('stepDivision').value;
-      let beatsPerStep = 0.5; // 8n
-      if (division === '16n') beatsPerStep = 0.25;
-      if (division === '4n') beatsPerStep = 1.0;
+      let beatsPerStep = division === '16n' ? 0.25 : (division === '4n' ? 1.0 : 0.5);
 
       const secondsPerBeat = 60 / bpm;
       const totalSeconds = totalSteps * beatsPerStep * secondsPerBeat;
@@ -626,12 +797,8 @@
 
     function calculateBpmFromDuration(targetDurationSeconds) {
       const division = document.getElementById('stepDivision').value;
-      let beatsPerStep = 0.5;
-      if (division === '16n') beatsPerStep = 0.25;
-      if (division === '4n') beatsPerStep = 1.0;
+      let beatsPerStep = division === '16n' ? 0.25 : (division === '4n' ? 1.0 : 0.5);
 
-      // targetDuration = totalSteps * beatsPerStep * (60 / BPM)
-      // BPM = (totalSteps * beatsPerStep * 60) / targetDuration
       let calculatedBpm = (totalSteps * beatsPerStep * 60) / targetDurationSeconds;
       calculatedBpm = Math.min(240, Math.max(60, Math.round(calculatedBpm)));
 
@@ -641,20 +808,14 @@
       updateTimingCalculations();
     }
 
-    // Step Execution (Clock Tick)
     function onStep(time) {
       if (totalSteps === 0) return;
-
       const step = currentStep % totalSteps;
-
-      // Update UI Highlights
       highlightStep(step);
 
-      // Play notes on this step
       filesList.forEach((_, fIdx) => {
         const cell = gridMatrix[`${fIdx}_${step}`];
         if (cell && cell.active) {
-          // Calculate velocity by lines of code changed (logarithmic scale)
           const lines = cell.lines || 10;
           const velocity = Math.min(1.0, Math.max(0.4, 0.4 + 0.18 * Math.log10(lines + 1)));
           playTrackSound(fIdx, velocity);
@@ -665,15 +826,17 @@
     }
 
     function highlightStep(stepIdx) {
-      // Remove previous column highlight
       document.querySelectorAll('.active-step').forEach(el => el.classList.remove('active-step'));
+      document.querySelectorAll('.active-step-header').forEach(el => el.classList.remove('active-step-header'));
 
-      // Add active column highlight
       document.querySelectorAll(`.commit-col-${stepIdx}`).forEach(el => {
-        el.classList.add('active-step');
+        if (el.tagName === 'TH') {
+          el.classList.add('active-step-header');
+        } else {
+          el.classList.add('active-step');
+        }
       });
 
-      // Update Header commit banner
       const c = commitsData[stepIdx];
       if (c) {
         document.getElementById('activeCommitHash').textContent = c.hash;
@@ -683,7 +846,6 @@
         document.getElementById('activeCommitFiles').textContent = `異動: ${activeFilesCount} 檔`;
       }
 
-      // Update status counter
       document.getElementById('currentStepText').textContent = `${stepIdx + 1} / ${totalSteps}`;
     }
 
@@ -695,9 +857,10 @@
       }
       currentStep = 0;
       isPlaying = false;
-      document.getElementById('playText').textContent = '播放 BGM';
+      document.getElementById('playText').textContent = 'PLAY BGM';
       document.getElementById('playIcon').setAttribute('data-lucide', 'play');
       document.querySelectorAll('.active-step').forEach(el => el.classList.remove('active-step'));
+      document.querySelectorAll('.active-step-header').forEach(el => el.classList.remove('active-step-header'));
       document.getElementById('currentStepText').textContent = `0 / ${totalSteps}`;
       lucide.createIcons();
     }
@@ -711,7 +874,7 @@
       if (isPlaying) {
         Tone.Transport.pause();
         isPlaying = false;
-        document.getElementById('playText').textContent = '繼續播放';
+        document.getElementById('playText').textContent = 'RESUME';
         document.getElementById('playIcon').setAttribute('data-lucide', 'play');
       } else {
         const division = document.getElementById('stepDivision').value;
@@ -726,7 +889,7 @@
 
         Tone.Transport.start();
         isPlaying = true;
-        document.getElementById('playText').textContent = '暫停';
+        document.getElementById('playText').textContent = 'PAUSE';
         document.getElementById('playIcon').setAttribute('data-lucide', 'pause');
       }
       lucide.createIcons();
@@ -737,7 +900,6 @@
       highlightStep(stepIdx);
     }
 
-    // Git Log Text Parser
     function parseGitLogText(text) {
       const lines = text.split(/\r?\n/);
       const parsedCommits = [];
@@ -757,7 +919,6 @@
             changes: {}
           };
         } else if (currentCommit) {
-          // parse numstat line: `added\tdeleted\tfilepath`
           const parts = line.split(/\s+/);
           if (parts.length >= 3) {
             const added = parseInt(parts[0]) || 0;
@@ -780,7 +941,6 @@
       return parsedCommits;
     }
 
-    // WAV Audio Recorder Exporter
     async function exportWavAudio() {
       initAudio();
       alert('準備開始無損錄製音訊！點擊確定後將播放一輪並在完成時自動下載 .WAV 遊戲配樂！');
@@ -850,11 +1010,10 @@
       updateSoundPreset(e.target.value);
     });
 
-    // Timing Modes Toggle
     document.getElementById('modeBpm').addEventListener('click', () => {
       timingMode = 'bpm';
-      document.getElementById('modeBpm').className = 'px-3 py-1 rounded-lg bg-indigo-600 text-white shadow transition';
-      document.getElementById('modeDuration').className = 'px-3 py-1 rounded-lg text-slate-400 hover:text-slate-200 transition';
+      document.getElementById('modeBpm').className = 'px-3 py-1 rounded-lg bg-green-500/20 text-green-300 border border-green-500/50 shadow transition';
+      document.getElementById('modeDuration').className = 'px-3 py-1 rounded-lg text-neutral-400 hover:text-neutral-200 transition';
       document.getElementById('bpmSlider').disabled = false;
       document.getElementById('bpmContainer').classList.remove('opacity-40');
       document.getElementById('durationSlider').disabled = true;
@@ -863,8 +1022,8 @@
 
     document.getElementById('modeDuration').addEventListener('click', () => {
       timingMode = 'duration';
-      document.getElementById('modeDuration').className = 'px-3 py-1 rounded-lg bg-indigo-600 text-white shadow transition';
-      document.getElementById('modeBpm').className = 'px-3 py-1 rounded-lg text-slate-400 hover:text-slate-200 transition';
+      document.getElementById('modeDuration').className = 'px-3 py-1 rounded-lg bg-green-500/20 text-green-300 border border-green-500/50 shadow transition';
+      document.getElementById('modeBpm').className = 'px-3 py-1 rounded-lg text-neutral-400 hover:text-neutral-200 transition';
       document.getElementById('bpmSlider').disabled = true;
       document.getElementById('bpmContainer').classList.add('opacity-40');
       document.getElementById('durationSlider').disabled = false;
@@ -877,7 +1036,6 @@
 
     document.getElementById('btnExportMidi').addEventListener('click', exportWavAudio);
 
-    // File Input import
     document.getElementById('fileInput').addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file) return;
@@ -894,7 +1052,7 @@
       reader.readAsText(file);
     });
 
-    // Start with Sample Dataset
+    // Start
     loadDataset(SAMPLE_COMMITS);
   </script>
 </body>
