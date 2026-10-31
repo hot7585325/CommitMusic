@@ -188,6 +188,9 @@ function renderSequencerTable() {
     sel.addEventListener('change', (e) => {
       const fIdx = parseInt(e.target.dataset.fileIdx);
       trackSettings[fIdx].instrument = e.target.value;
+      initAudio();
+      if (Tone.context.state !== 'running') Tone.context.resume();
+      playTrackSound(fIdx, 0.8);
     });
   });
 
@@ -195,6 +198,9 @@ function renderSequencerTable() {
     sel.addEventListener('change', (e) => {
       const fIdx = parseInt(e.target.dataset.fileIdx);
       trackSettings[fIdx].note = e.target.value;
+      initAudio();
+      if (Tone.context.state !== 'running') Tone.context.resume();
+      playTrackSound(fIdx, 0.8);
     });
   });
 
@@ -251,6 +257,9 @@ function renderCellContent(td, fIdx, cIdx) {
 
 function toggleSingleCellState(fIdx, cIdx, targetState) {
   initAudio();
+  if (Tone.context.state !== 'running') {
+    Tone.context.resume();
+  }
   if (!gridMatrix[`${fIdx}_${cIdx}`]) {
     gridMatrix[`${fIdx}_${cIdx}`] = { active: false, type: 'M', lines: 10 };
   }
@@ -263,7 +272,7 @@ function toggleSingleCellState(fIdx, cIdx, targetState) {
   if (td) renderCellContent(td, fIdx, cIdx);
 }
 
-// Excel Range Selection Update
+// Excel Range Selection Update (High-Performance Class Toggle)
 function updateSelectionRange(start, end) {
   selectedCells.clear();
   const minF = Math.min(start.fIdx, end.fIdx);
@@ -277,11 +286,12 @@ function updateSelectionRange(start, end) {
     }
   }
 
-  // Re-render visual selection
+  // 高效更新選取樣式，不銷毀 DOM innerHTML
   document.querySelectorAll('#matrixTbody td[id^="cell_"]').forEach(td => {
-    const f = parseInt(td.dataset.fIdx);
-    const c = parseInt(td.dataset.cIdx);
-    renderCellContent(td, f, c);
+    const f = td.dataset.fIdx;
+    const c = td.dataset.cIdx;
+    const isSelected = selectedCells.has(`${f}_${c}`);
+    td.classList.toggle('selection-box', isSelected);
   });
 
   // Show Action Bar

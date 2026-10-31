@@ -2,63 +2,10 @@
 // GitMusic - Audio Engine (Tone.js + Web Audio)
 // ==========================================
 
-// 原生 Web Audio 免 Worklet 混響空間效果 (100% 相容 file:// 與所有瀏覽器)
-function createCleanReverb(context, destination, wet = 0.25) {
-  const rawCtx = context.rawContext || context;
-  const dest = destination.input || destination;
-  const sampleRate = rawCtx.sampleRate || 44100;
-
-  const inputNode = rawCtx.createGain();
-  const dryGain = rawCtx.createGain();
-  const wetGain = rawCtx.createGain();
-
-  const initialWet = Math.max(0, Math.min(1, wet));
-  dryGain.gain.setValueAtTime(1 - (initialWet * 0.4), rawCtx.currentTime || 0);
-  wetGain.gain.setValueAtTime(initialWet, rawCtx.currentTime || 0);
-
-  inputNode.connect(dryGain);
-  dryGain.connect(dest);
-
-  // 產生 1.2 秒雙聲道自然衰減脈衝 (無需 AudioWorklet，純 Float32 運算)
-  const duration = 1.2;
-  const length = Math.floor(sampleRate * duration);
-  const impulse = rawCtx.createBuffer(2, length, sampleRate);
-  const left = impulse.getChannelData(0);
-  const right = impulse.getChannelData(1);
-
-  for (let i = 0; i < length; i++) {
-    const factor = Math.exp(-i / (sampleRate * 0.35));
-    left[i] = (Math.random() * 2 - 1) * factor;
-    right[i] = (Math.random() * 2 - 1) * factor;
-  }
-
-  const convolver = rawCtx.createConvolver();
-  convolver.buffer = impulse;
-
-  inputNode.connect(convolver);
-  convolver.connect(wetGain);
-  wetGain.connect(dest);
-
-  return {
-    input: inputNode,
-    wet: {
-      get value() {
-        return wetGain.gain.value;
-      },
-      set value(v) {
-        const val = Math.max(0, Math.min(1, v));
-        const t = rawCtx.currentTime || 0;
-        wetGain.gain.setValueAtTime(val, t);
-        dryGain.gain.setValueAtTime(1 - (val * 0.4), t);
-      }
-    }
-  };
-}
-
 // 原生 Web Audio 免 Worklet 小鼓合成器 (100% 相容 file:// 與所有瀏覽器)
-function createSnareSynth(context, destination) {
+function createSnareSynth(context) {
   const rawCtx = context.rawContext || context;
-  const dest = destination.input || destination;
+  const dest = rawCtx.destination;
   const rate = rawCtx.sampleRate || 44100;
 
   const buffer = rawCtx.createBuffer(1, Math.floor(rate * 0.18), rate);
@@ -69,9 +16,9 @@ function createSnareSynth(context, destination) {
 
   return {
     triggerAttackRelease(arg1, arg2, arg3) {
-      let time = typeof arg2 === 'number' ? arg2 : rawCtx.currentTime;
-      let velocity = typeof arg3 === 'number' ? arg3 : (typeof arg2 === 'number' ? 0.8 : 0.8);
-      if (time === undefined || isNaN(time)) time = rawCtx.currentTime;
+      let time = typeof arg2 === 'number' ? arg2 : (typeof arg1 === 'number' ? arg1 : rawCtx.currentTime);
+      let velocity = typeof arg3 === 'number' ? arg3 : (typeof arg2 === 'number' ? arg2 : 0.8);
+      if (time === undefined || isNaN(time) || time <= 0) time = rawCtx.currentTime;
 
       try {
         // 1. 白噪聲 (Noise burst)
@@ -117,21 +64,25 @@ function createSnareSynth(context, destination) {
 function initAudio() {
   if (synths.leadSynth) return;
 
-  // 免 Worklet 原生空間混響效果
-  synths.reverb = createCleanReverb(Tone.context, Tone.Destination, 0.25);
+  // 使用 Tone.Freeverb 演算法混響（無 AudioWorklet 依賴，100% 相容 file:// 與所有瀏覽器）
+  synths.reverb = new Tone.Freeverb({
+    roomSize: 0.5,
+    dampening: 3000
+  }).toDestination();
+  synths.reverb.wet.value = 0.25;
 
   // Lead Synth (Square / 8-bit style)
   synths.leadSynth = new Tone.PolySynth(Tone.Synth, {
     oscillator: { type: 'square' },
     envelope: { attack: 0.01, decay: 0.15, sustain: 0.2, release: 0.2 }
-  }).connect(synths.reverb.input);
+  }).connect(synths.reverb);
   synths.leadSynth.volume.value = -6;
 
   // Bass Synth (Triangle)
   synths.bassSynth = new Tone.PolySynth(Tone.Synth, {
     oscillator: { type: 'triangle' },
     envelope: { attack: 0.02, decay: 0.3, sustain: 0.4, release: 0.3 }
-  }).connect(synths.reverb.input);
+  }).connect(synths.reverb);
   synths.bassSynth.volume.value = -3;
 
   // Kick Drum
@@ -144,7 +95,7 @@ function initAudio() {
   synths.kickSynth.volume.value = 0;
 
   // Snare Drum (免 Worklet 原生高相容小鼓)
-  synths.snareSynth = createSnareSynth(Tone.context, Tone.Destination);
+  synths.snareSynth = createSnareSynth(Tone.context);
 
   // Hi-Hat
   synths.hihatSynth = new Tone.MetalSynth({
@@ -181,18 +132,19 @@ function playTrackSound(fIdx, velocity = 0.8) {
 
   const inst = track.instrument;
   const note = track.note;
+  const now = Tone.now();
 
   try {
     if (inst === 'kick') {
-      synths.kickSynth.triggerAttackRelease(note, '8n', undefined, velocity);
+      synths.kickSynth.triggerAttackRelease(note, '8n', now, velocity);
     } else if (inst === 'snare') {
-      synths.snareSynth.triggerAttackRelease('16n', undefined, velocity * 0.8);
+      synths.snareSynth.triggerAttackRelease('16n', now, velocity * 0.8);
     } else if (inst === 'hihat') {
-      synths.hihatSynth.triggerAttackRelease('32n', undefined, velocity * 0.6);
+      synths.hihatSynth.triggerAttackRelease('32n', now, velocity * 0.6);
     } else if (inst === 'bass') {
-      synths.bassSynth.triggerAttackRelease(note, '8n', undefined, velocity);
+      synths.bassSynth.triggerAttackRelease(note, '8n', now, velocity);
     } else {
-      synths.leadSynth.triggerAttackRelease(note, '16n', undefined, velocity);
+      synths.leadSynth.triggerAttackRelease(note, '16n', now, velocity);
     }
   } catch (e) {
     console.warn('Audio playback error:', e);

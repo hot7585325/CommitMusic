@@ -138,19 +138,23 @@ async function renderOfflineBuffer() {
       reverbWet = 0.3;
     }
 
-    // 免 Worklet 原生空間混響效果
-    const offlineReverb = createCleanReverb(Tone.context, Tone.Destination, reverbWet);
+    // 使用 Tone.Freeverb 演算法混響
+    const offlineReverb = new Tone.Freeverb({
+      roomSize: 0.5,
+      dampening: 3000
+    }).toDestination();
+    offlineReverb.wet.value = reverbWet;
 
     const lead = new Tone.PolySynth(Tone.Synth, {
       oscillator: { type: leadOsc },
       envelope: { attack: 0.01, decay: 0.15, sustain: 0.2, release: 0.2 }
-    }).connect(offlineReverb.input);
+    }).connect(offlineReverb);
     lead.volume.value = -6;
 
     const bass = new Tone.PolySynth(Tone.Synth, {
       oscillator: { type: bassOsc },
       envelope: { attack: 0.02, decay: 0.3, sustain: 0.4, release: 0.3 }
-    }).connect(offlineReverb.input);
+    }).connect(offlineReverb);
     bass.volume.value = -3;
 
     const kick = new Tone.MembraneSynth({
@@ -162,7 +166,7 @@ async function renderOfflineBuffer() {
     kick.volume.value = 0;
 
     // Snare Drum (免 Worklet 原生高相容小鼓)
-    const snare = createSnareSynth(Tone.context, Tone.Destination);
+    const snare = createSnareSynth(Tone.context);
 
     const hihat = new Tone.MetalSynth({
       frequency: 200,
